@@ -1,0 +1,33 @@
+{
+  "name": "contentful-space-sync",
+  "version": "1.0.0",
+  "description": "Syncs Contentful spaces",
+  "bin": "./bin/space-sync",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contentful-labs/contentful-space-sync.git"
+  },
+  "keywords": [
+    "contentful",
+    "sync",
+    "space"
+  ],
+  "author": "Tiago Rodrigues <tiago@contentful.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/contentful-labs/contentful-space-sync/issues"
+  },
+  "homepage": "https://github.com/contentful-labs/contentful-space-sync#readme",
+  "dependencies": {
+    "babel": "^5.8.23",
+    "contentful": "^1.1.5",
+    "contentful-management": "^0.2.0",
+    "yargs": "^3.27.0"
+  },
+  "devDependencies": {
+    "eslint": "^1.6.0"
+  }
+}
