@@ -3,5 +3,6 @@
   "sourceSpaceDeliveryToken": "source space delivery token",
   "sourceSpaceManagementToken": "source space management token",
   "destinationSpace": "destination space id",
+  "destinationSpaceDeliveryToken": "destination space delivery token",
   "destinationSpaceManagementToken": "destination space management token"
 }
