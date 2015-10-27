@@ -70,7 +70,7 @@ or
 contentful-space-sync --config example-config.json
 ```
 
-You can create your own config file based on the `example-config.json` file.
+You can create your own config file based on the [`example-config.json`](example-config.json) file.
 
 You can also use the `--fresh` parameter with any of the above combinations, in case you have manually deleted all content from an existent space and want to ignore an existing stored sync token.
 
