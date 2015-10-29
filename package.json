@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/contentful-labs/contentful-space-sync#readme",
   "dependencies": {
-    "babel": "^5.8.23",
+    "babel": "^6.0.0",
     "bluebird": "^3.0.2",
     "contentful": "^1.1.5",
     "contentful-management": "^0.5.0",
