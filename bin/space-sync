@@ -1,3 +1,11 @@
 #!/usr/bin/env node
-require('babel/register')
-require('../lib/space-sync')
+try {
+  require('../dist/space-sync')
+} catch (err) {
+  if (err.code === 'MODULE_NOT_FOUND') {
+    require('babel/register')
+    require('../lib/space-sync')
+  } else {
+    console.log(err)
+  }
+}
