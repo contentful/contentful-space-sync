@@ -7,5 +7,5 @@ node_modules
 dist
 
 # space-sync specific
-next-sync-token-*
+contentful-space-sync-*
 test-*.json
