@@ -1,11 +1,31 @@
 #!/usr/bin/env node
+var log = require('npmlog')
+var usage, runSpaceSync
 try {
-  require('../dist/space-sync')
+  runSpaceSync = require('../dist/run-space-sync')
+  usage = require('../dist/usage')
 } catch (err) {
   if (err.code === 'MODULE_NOT_FOUND') {
     require('babel/register')
-    require('../lib/space-sync')
+    runSpaceSync = require('../lib/run-space-sync')
+    usage = require('../lib/usage')
   } else {
     console.log(err)
+    process.exit(1)
   }
 }
+
+log.addLevel('show', 10000, {}, '>')
+
+log.show('Contentful Space Sync:\n' +
+'Let\'s sync some content across spaces!')
+
+if (usage.opts.fresh) {
+  log.show('Synchronizing content from ' + usage.opts.sourceSpace + ' to ' +
+  usage.opts.destinationSpace + 'with existing token from ' + usage.syncToken.filePath)
+} else {
+  log.show('No previous sync token found or fresh sync requested.\n' +
+  'Synchronizing fresh content from ' + usage.opts.sourceSpace + ' to ' + usage.opts.destinationSpace)
+}
+
+setTimeout(runSpaceSync, 3000)
