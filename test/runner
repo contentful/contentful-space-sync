@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+require('babel/register')
+var glob = require('glob')
+glob.sync(
+  process.argv[2] || '{**/,}*-test.js',
+  {cwd: 'test'}
+)
+.forEach(function (filename) {
+  require('./' + filename)
+})
