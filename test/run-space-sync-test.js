@@ -1,4 +1,5 @@
 import test from 'tape'
+
 import runSpaceSync from '../lib/run-space-sync'
 
 test('Runs space sync', t => {

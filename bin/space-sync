@@ -28,4 +28,6 @@ if (usage.opts.fresh) {
   'Synchronizing fresh content from ' + usage.opts.sourceSpace + ' to ' + usage.opts.destinationSpace)
 }
 
-setTimeout(runSpaceSync, 3000)
+setTimeout(function () {
+  runSpaceSync(usage)
+}, 3000)
