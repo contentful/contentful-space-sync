@@ -1,6 +1,6 @@
 {
   "name": "contentful-space-sync",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Syncs Contentful spaces",
   "bin": "bin/space-sync",
   "scripts": {
