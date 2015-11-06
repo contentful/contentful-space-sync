@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var log = require('npmlog')
+var fs = require('fs')
 var usage, runSpaceSync
 try {
   runSpaceSync = require('../dist/run-space-sync')
@@ -18,10 +19,17 @@ try {
 
 log.addLevel('show', 10000, {}, '>')
 
+var hasTokenFile
+try {
+  hasTokenFile = !!fs.statSync(usage.syncToken.filePath)
+} catch (e) {
+  hasTokenFile = false
+}
+
 log.show('Contentful Space Sync:\n' +
 'Let\'s sync some content across spaces!')
 
-if (usage.opts.fresh) {
+if (usage.opts.fresh || !hasTokenFile) {
   log.show('No previous sync token found or fresh sync requested.\n' +
   'Synchronizing fresh content from ' + usage.opts.sourceSpace + ' to ' + usage.opts.destinationSpace)
 } else {
