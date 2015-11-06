@@ -5,6 +5,7 @@
   "bin": "bin/space-sync",
   "scripts": {
     "build": "rimraf dist && mkdirp dist && babel lib --out-dir dist",
+    "clean": "rimraf dist",
     "prepublish": "npm run build",
     "test": "./test/runner"
   },
