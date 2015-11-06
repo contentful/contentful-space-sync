@@ -21,11 +21,11 @@ log.show('Contentful Space Sync:\n' +
 'Let\'s sync some content across spaces!')
 
 if (usage.opts.fresh) {
-  log.show('Synchronizing content from ' + usage.opts.sourceSpace + ' to ' +
-  usage.opts.destinationSpace + 'with existing token from ' + usage.syncToken.filePath)
-} else {
   log.show('No previous sync token found or fresh sync requested.\n' +
   'Synchronizing fresh content from ' + usage.opts.sourceSpace + ' to ' + usage.opts.destinationSpace)
+} else {
+  log.show('Synchronizing content from ' + usage.opts.sourceSpace + ' to ' +
+  usage.opts.destinationSpace + 'with existing token from ' + usage.syncToken.filePath)
 }
 
 setTimeout(function () {
