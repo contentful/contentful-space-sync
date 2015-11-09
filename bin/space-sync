@@ -21,7 +21,7 @@ log.addLevel('show', 10000, {}, '>')
 
 var hasTokenFile
 try {
-  hasTokenFile = !!fs.statSync(usage.syncToken.filePath)
+  hasTokenFile = !!fs.statSync(usage.syncTokenFile)
 } catch (e) {
   hasTokenFile = false
 }
@@ -34,7 +34,7 @@ if (usage.opts.fresh || !hasTokenFile) {
   'Synchronizing fresh content from ' + usage.opts.sourceSpace + ' to ' + usage.opts.destinationSpace)
 } else {
   log.show('Synchronizing content from ' + usage.opts.sourceSpace + ' to ' +
-  usage.opts.destinationSpace + 'with existing token from ' + usage.syncToken.filePath)
+  usage.opts.destinationSpace + 'with existing token from ' + usage.syncTokenFile)
 }
 
 setTimeout(function () {
