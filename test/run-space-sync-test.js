@@ -1,6 +1,6 @@
 import test from 'tape'
-import Promise from 'bluebird'
 import sinon from 'sinon'
+import Promise from 'bluebird'
 
 import runSpaceSync from '../lib/run-space-sync'
 
@@ -42,13 +42,13 @@ function rewireWithStub (methodName) {
 
 test('Runs space sync', t => {
   const preparedResponses = {
-    source: Object.assign(Object.create(sourceResponse), {
+    source: {
       deletedContentTypes: [],
       deletedLocales: [],
       contentTypes: [],
       locales: [],
       nextSyncToken: 'nextsynctoken'
-    }),
+    },
     destination: destinationResponse
   }
 

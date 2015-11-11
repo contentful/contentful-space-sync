@@ -1,0 +1,64 @@
+import test from 'tape'
+import sinon from 'sinon'
+import Promise from 'bluebird'
+
+import getSourceSpace from '../../lib/get/get-source-space'
+
+const fsMock = {
+  readFileAsync: sinon.stub()
+}
+getSourceSpace.__Rewire__('fs', fsMock)
+
+const deliveryClientMock = {
+  sync: sinon.stub().returns(Promise.resolve({
+    items: [],
+    nextSyncToken: 'token'
+  })),
+  contentTypes: sinon.stub().returns(Promise.resolve([])),
+  space: sinon.stub().returns(Promise.resolve({
+    locales: []
+  }))
+}
+
+const preparedResponse = {
+  entries: [],
+  assets: [],
+  deletedEntries: [],
+  deletedAssets: [],
+  contentTypes: [],
+  locales: [],
+  nextSyncToken: 'token',
+  isInitialSync: false
+}
+
+test('Get source space with no file token', t => {
+  fsMock.readFileAsync.returns(Promise.reject('file not found'))
+  getSourceSpace(deliveryClientMock)
+  .then(response => {
+    const newResponse = Object.assign({}, preparedResponse)
+    newResponse.isInitialSync = true
+    t.deepLooseEqual(response, newResponse)
+    t.end()
+  })
+})
+
+test('Get source space with file token', t => {
+  fsMock.readFileAsync.withArgs('tokenfile').returns(Promise.resolve('newtoken'))
+  getSourceSpace(deliveryClientMock, 'tokenfile')
+  .then(response => {
+    t.equals(deliveryClientMock.sync.secondCall.args[0].nextSyncToken, 'newtoken', 'syncs with provided token')
+    t.deepLooseEqual(response, Object.assign({}, preparedResponse))
+    t.end()
+  })
+})
+
+test('Get source space with forced sync from scratch', t => {
+  fsMock.readFileAsync.withArgs('tokenfile').returns(Promise.resolve('newtoken'))
+  getSourceSpace(deliveryClientMock, 'tokenfile', true)
+  .then(response => {
+    const newResponse = Object.assign({}, preparedResponse)
+    newResponse.isInitialSync = true
+    t.deepLooseEqual(response, newResponse)
+    t.end()
+  })
+})
