@@ -64,5 +64,6 @@ test('Get source space with forced sync from scratch', t => {
     const newResponse = Object.assign({}, preparedResponse)
     newResponse.isInitialSync = true
     t.deepLooseEqual(response, newResponse)
+    return response
   })
 })
