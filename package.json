@@ -17,7 +17,7 @@
     "contentful": "^1.1.5",
     "contentful-management": "^0.5.0",
     "lodash": "^3.10.1",
-    "npmlog": "^1.2.1",
+    "npmlog": "^2.0.0",
     "yargs": "^3.27.0"
   },
   "devDependencies": {
