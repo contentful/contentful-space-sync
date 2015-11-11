@@ -5,6 +5,7 @@ require('babel/register')({
 
 var log = require('npmlog')
 log.addLevel('show', 10000, {}, '>')
+log.level = 'silent'
 
 var glob = require('glob')
 glob.sync(
