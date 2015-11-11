@@ -7,6 +7,7 @@
     "build": "rimraf dist && mkdirp dist && babel lib --out-dir dist",
     "clean": "rimraf dist && rimraf coverage",
     "prepublish": "npm run build",
+    "pretest": "standard",
     "test": "./test/runner",
     "coverage": "isparta cover test/runner && opener coverage/lcov-report/index.html"
   },
