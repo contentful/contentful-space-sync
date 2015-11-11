@@ -5,9 +5,10 @@
   "bin": "bin/space-sync",
   "scripts": {
     "build": "rimraf dist && mkdirp dist && babel lib --out-dir dist",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist && rimraf coverage",
     "prepublish": "npm run build",
-    "test": "./test/runner"
+    "test": "./test/runner",
+    "coverage": "isparta cover test/runner && opener coverage/lcov-report/index.html"
   },
   "dependencies": {
     "babel-polyfill": "^6.0.16",
@@ -25,6 +26,7 @@
     "babel-plugin-rewire": "^0.1.22",
     "glob": "^5.0.15",
     "mkdirp": "^0.5.1",
+    "opener": "^1.4.1",
     "rimraf": "^2.4.3",
     "sinon": "^1.17.2",
     "standard": "^5.3.1",
