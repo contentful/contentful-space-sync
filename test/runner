@@ -7,11 +7,8 @@ var log = require('npmlog')
 log.addLevel('show', 10000, {}, '>')
 log.level = 'silent'
 
-var glob = require('glob')
-glob.sync(
-  process.argv[2] || '{**/,}*-test.js',
-  {cwd: 'test'}
-)
-.forEach(function (filename) {
-  require('./' + filename)
+require('require-all')({
+  dirname: process.cwd() + '/test',
+  filter: process.argv[2] || /\-test\.js/,
+  recursive: true
 })
