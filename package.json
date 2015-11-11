@@ -10,7 +10,7 @@
     "test": "./test/runner"
   },
   "dependencies": {
-    "babel-polyfill": "^6.0.16",
+    "babel-polyfill": "^6.1.4",
     "bluebird": "^3.0.2",
     "contentful": "^1.1.5",
     "contentful-management": "^0.5.0",
