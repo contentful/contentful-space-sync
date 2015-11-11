@@ -28,6 +28,7 @@
     "babel-eslint": "^4.1.3",
     "babel-plugin-rewire": "^0.1.22",
     "blue-tape": "^0.1.10",
+    "isparta": "^3.5.3",
     "mkdirp": "^0.5.1",
     "opener": "^1.4.1",
     "require-all": "^2.0.0",
