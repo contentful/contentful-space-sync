@@ -9,7 +9,7 @@
     "prepublish": "npm run build",
     "pretest": "standard",
     "test": "npm run test:cover",
-    "test:cover": "isparta cover ./test/runner",
+    "test:cover": "isparta cover test/runner",
     "test:only": "./test/runner",
     "browser-coverage": "npm run test:cover && opener coverage/lcov-report/index.html"
   },
