@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'blue-tape'
 import sinon from 'sinon'
 import Promise from 'bluebird'
 
@@ -67,7 +67,7 @@ test('Runs space sync', t => {
     }
   })
 
-  runSpaceSync({
+  return runSpaceSync({
     opts: {},
     syncTokenFile: 'synctokenfile',
     errorLogFile: 'errorlogfile'
@@ -81,8 +81,5 @@ test('Runs space sync', t => {
     t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
     t.ok(fsMock.writeFileSync.calledWith('errorlogfile'), 'error log file created')
     t.ok(/erroruri/.test(fsMock.writeFileSync.secondCall.args[1]), 'error objects are logged')
-    t.end()
-  }, err => {
-    t.end(err)
   })
 })
