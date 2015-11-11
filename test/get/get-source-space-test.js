@@ -11,22 +11,29 @@ getSourceSpace.__Rewire__('fs', fsMock)
 
 const deliveryClientMock = {
   sync: sinon.stub().returns(Promise.resolve({
-    items: [],
+    items: [
+      {sys: {type: 'Entry'}},
+      {sys: {type: 'Asset'}},
+      {sys: {type: 'DeletedEntry'}},
+      {sys: {type: 'DeletedAsset'}}
+    ],
     nextSyncToken: 'token'
   })),
-  contentTypes: sinon.stub().returns(Promise.resolve([])),
+  contentTypes: sinon.stub().returns(Promise.resolve([
+    {sys: {type: 'ContentType'}}
+  ])),
   space: sinon.stub().returns(Promise.resolve({
-    locales: []
+    locales: ['en-US']
   }))
 }
 
 const preparedResponse = {
-  entries: [],
-  assets: [],
-  deletedEntries: [],
-  deletedAssets: [],
-  contentTypes: [],
-  locales: [],
+  entries: [{sys: {type: 'Entry'}}],
+  assets: [{sys: {type: 'Asset'}}],
+  deletedEntries: [{sys: {type: 'DeletedEntry'}}],
+  deletedAssets: [{sys: {type: 'DeletedAsset'}}],
+  contentTypes: [{sys: {type: 'ContentType'}}],
+  locales: ['en-US'],
   nextSyncToken: 'token',
   isInitialSync: false
 }

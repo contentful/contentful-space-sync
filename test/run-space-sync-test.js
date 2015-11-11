@@ -3,13 +3,22 @@ import sinon from 'sinon'
 import Promise from 'bluebird'
 
 import runSpaceSync from '../lib/run-space-sync'
+import errorBuffer from '../lib/error-buffer'
 
 const sourceResponse = {
   nextSyncToken: 'nextsynctoken',
-  contentTypes: [],
-  locales: []
+  contentTypes: [
+    {original: {sys: {id: 'exists'}}}
+  ],
+  locales: [{original: {code: 'en-US'}}]
 }
-const destinationResponse = {}
+const destinationResponse = {
+  contentTypes: [
+    {sys: {id: 'exists'}},
+    {sys: {id: 'doesntexist'}}
+  ],
+  locales: [{code: 'en-US'}, {code: 'en-GB'}]
+}
 
 const createClientsStub = rewireWithStub('createClients')
 .returns({
@@ -43,18 +52,25 @@ function rewireWithStub (methodName) {
 test('Runs space sync', t => {
   const preparedResponses = {
     source: {
-      deletedContentTypes: [],
-      deletedLocales: [],
-      contentTypes: [],
-      locales: [],
+      deletedContentTypes: [{sys: {id: 'doesntexist'}}],
+      deletedLocales: [{code: 'en-GB'}],
+      contentTypes: [{original: {sys: {id: 'exists'}}}],
+      locales: [{original: {code: 'en-US'}}],
       nextSyncToken: 'nextsynctoken'
     },
-    destination: destinationResponse
+    destination: Object.assign({}, destinationResponse)
   }
+
+  errorBuffer.push({
+    request: {
+      uri: 'erroruri'
+    }
+  })
 
   runSpaceSync({
     opts: {},
-    syncTokenFile: 'synctokenfile'
+    syncTokenFile: 'synctokenfile',
+    errorLogFile: 'errorlogfile'
   })
   .then(() => {
     t.ok(createClientsStub.called, 'creates clients')
@@ -63,6 +79,8 @@ test('Runs space sync', t => {
     t.ok(transformSpaceStub.called, 'transforms space')
     t.deepLooseEqual(pushToSpaceStub.args[0][0], preparedResponses, 'pushes to destination space')
     t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
+    t.ok(fsMock.writeFileSync.calledWith('errorlogfile'), 'error log file created')
+    t.ok(/erroruri/.test(fsMock.writeFileSync.secondCall.args[1]), 'error objects are logged')
     t.end()
   }, err => {
     t.end(err)
