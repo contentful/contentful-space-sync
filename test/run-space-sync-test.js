@@ -20,34 +20,25 @@ const destinationResponse = {
   locales: [{code: 'en-US'}, {code: 'en-GB'}]
 }
 
-const createClientsStub = rewireWithStub('createClients')
-.returns({
-  source: {delivery: {}},
-  destination: {management: {}}
-})
+const createClientsStub = sinon.stub().returns({ source: {delivery: {}}, destination: {management: {}} })
+runSpaceSync.__Rewire__('createClients', createClientsStub)
 
-const getSourceSpaceStub = rewireWithStub('getSourceSpace')
-.returns(Promise.resolve(sourceResponse))
+const getSourceSpaceStub = sinon.stub().returns(Promise.resolve(sourceResponse))
+runSpaceSync.__Rewire__('getSourceSpace', getSourceSpaceStub)
 
-const getDestinationContentForUpdateStub = rewireWithStub('getDestinationContentForUpdate')
-.returns(Promise.resolve(destinationResponse))
+const getDestinationContentForUpdateStub = sinon.stub().returns(Promise.resolve(destinationResponse))
+runSpaceSync.__Rewire__('getDestinationContentForUpdate', getDestinationContentForUpdateStub)
 
-const transformSpaceStub = rewireWithStub('transformSpace')
-.returns(Promise.resolve(sourceResponse))
+const transformSpaceStub = sinon.stub().returns(Promise.resolve(sourceResponse))
+runSpaceSync.__Rewire__('transformSpace', transformSpaceStub)
 
-const pushToSpaceStub = rewireWithStub('pushToSpace')
-.returns(Promise.resolve({}))
+const pushToSpaceStub = sinon.stub().returns(Promise.resolve({}))
+runSpaceSync.__Rewire__('pushToSpace', pushToSpaceStub)
 
 const fsMock = {
   writeFileSync: sinon.stub()
 }
 runSpaceSync.__Rewire__('fs', fsMock)
-
-function rewireWithStub (methodName) {
-  const stub = sinon.stub()
-  runSpaceSync.__Rewire__(methodName, stub)
-  return stub
-}
 
 test('Runs space sync', t => {
   const preparedResponses = {
