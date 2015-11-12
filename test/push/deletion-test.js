@@ -14,10 +14,10 @@ test('Delete entities', t => {
   const space = {
     deleteAsset: sinon.stub().returns(Promise.resolve())
   }
-  deletion.deleteEntities(space, [
+  deletion.deleteEntities(space, 'Asset', [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
-  ], 'Asset')
+  ])
   .then(response => {
     t.equals(space.deleteAsset.callCount, 2, 'delete assets')
     t.equals(logMock.info.callCount, 2, 'logs deletion of two assets')

@@ -58,10 +58,10 @@ test('Unpublish entities', t => {
   const space = {
     unpublishAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}}))
   }
-  publishing.unpublishEntities(space, [
+  publishing.unpublishEntities(space, 'Asset', [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
-  ], 'Asset')
+  ])
   .then(response => {
     t.equals(space.unpublishAsset.callCount, 2, 'unpublish assets')
     t.equals(logMock.info.callCount, 2, 'logs unpublishing of two assets')
@@ -75,10 +75,10 @@ test('Fails to unpublish entities', t => {
   const space = {
     unpublishAsset: sinon.stub().returns(Promise.reject({}))
   }
-  publishing.unpublishEntities(space, [
+  publishing.unpublishEntities(space, 'Asset', [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
-  ], 'Asset')
+  ])
   .catch(errors => {
     t.equals(space.unpublishAsset.callCount, 2, 'tries to unpublish assets')
     teardown()
@@ -91,9 +91,9 @@ test('Fails to unpublish entities because theyre already unpublished', t => {
   const space = {
     unpublishAsset: sinon.stub().returns(Promise.reject({name: 'BadRequest'}))
   }
-  publishing.unpublishEntities(space, [
+  publishing.unpublishEntities(space, 'Asset', [
     { sys: {id: '123', type: 'Asset'} }
-  ], 'Asset')
+  ])
   .then(entities => {
     t.equals(space.unpublishAsset.callCount, 1, 'tries to unpublish assets')
     t.equals(entities[0].sys.type, 'Asset', 'is an entity')

@@ -24,12 +24,12 @@ test('Create entities', t => {
     createAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}})),
     updateAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}}))
   }
-  creation.createEntities(space, [
+  creation.createEntities(space, 'Asset', [
     { original: { sys: {} }, transformed: { sys: {id: '123'} } },
     { original: { sys: {} }, transformed: { sys: {id: '456'} } }
   ], [
     {sys: {id: '123', version: 6}}
-  ], 'Asset')
+  ])
   .then(response => {
     t.equals(space.createAsset.callCount, 1, 'create assets')
     t.equals(space.updateAsset.callCount, 1, 'update assets')
@@ -51,7 +51,7 @@ test('Create entries', t => {
     { original: { sys: {contentType: {}} }, transformed: { sys: {id: '456'} } }
   ], [
     {sys: {id: '123', version: 6}}
-  ], 'Asset')
+  ])
   .then(response => {
     t.equals(space.createEntry.callCount, 1, 'create entries')
     t.equals(space.updateEntry.callCount, 1, 'update entries')
@@ -76,7 +76,7 @@ test('Fails to create entities due to validation', t => {
     }
   }))
   const entity = { original: { sys: {} }, transformed: { sys: {} } }
-  creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
+  creation.createEntities(space, 'Asset', [entity], [{sys: {}}])
   .then(entities => {
     t.equals(entities[0], entity)
     t.end()
@@ -91,7 +91,7 @@ test('Fails to create entities due to version mismatch', t => {
   }
   space.createAsset.returns(Promise.reject({error: {sys: {id: 'VersionMismatch'}}}))
   const entity = { original: { sys: {} }, transformed: { sys: {} } }
-  creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
+  creation.createEntities(space, 'Asset', [entity], [{sys: {}}])
   .catch(err => {
     t.equals(err.error.sys.id, 'VersionMismatch')
     teardown()
