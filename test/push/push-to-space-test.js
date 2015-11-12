@@ -55,5 +55,10 @@ test('Push content to destination space', t => {
     t.equals(publishingMock.publishEntities.callCount, 3, 'publish entities')
     t.equals(assetsMock.processAssets.callCount, 1, 'process assets')
     t.equals(assetsMock.checkAssets.callCount, 1, 'check assets')
+
+    pushToSpace.__ResetDependency__('creation')
+    pushToSpace.__ResetDependency__('publishing')
+    pushToSpace.__ResetDependency__('deletion')
+    pushToSpace.__ResetDependency__('assets')
   })
 })

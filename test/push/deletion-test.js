@@ -21,5 +21,6 @@ test('Delete entities', t => {
   .then(response => {
     t.equals(space.deleteAsset.callCount, 2, 'delete assets')
     t.equals(logMock.info.callCount, 2, 'logs deletion of two assets')
+    deletion.__ResetDependency__('log')
   })
 })

@@ -8,10 +8,18 @@ const logMock = {
   info: sinon.stub(),
   error: sinon.stub()
 }
-creation.__Rewire__('log', logMock)
+
+function setup () {
+  logMock.info.reset()
+  creation.__Rewire__('log', logMock)
+}
+
+function teardown () {
+  creation.__ResetDependency__('log')
+}
 
 test('Create entities', t => {
-  logMock.info.reset()
+  setup()
   const space = {
     createAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}})),
     updateAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}}))
@@ -27,11 +35,12 @@ test('Create entities', t => {
     t.equals(space.updateAsset.callCount, 1, 'update assets')
     t.equals(space.updateAsset.args[0][0].sys.version, 6, 'updates asset version')
     t.equals(logMock.info.callCount, 2, 'logs creation of two assets')
+    teardown()
   })
 })
 
 test('Create entries', t => {
-  logMock.info.reset()
+  setup()
   const space = {
     createEntry: sinon.stub().returns(Promise.resolve({sys: {type: 'Entry'}})),
     updateEntry: sinon.stub().returns(Promise.resolve({sys: {type: 'Entry'}}))
@@ -47,10 +56,12 @@ test('Create entries', t => {
     t.equals(space.updateEntry.callCount, 1, 'update entries')
     t.equals(space.updateEntry.args[0][0].sys.version, 6, 'updates entry version')
     t.equals(logMock.info.callCount, 2, 'logs creation of two entries')
+    teardown()
   })
 })
 
 test('Fails to create entities due to validation', t => {
+  setup()
   const space = {
     createAsset: sinon.stub()
   }
@@ -66,10 +77,12 @@ test('Fails to create entities due to validation', t => {
   return creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
   .catch(responseEntity => {
     t.equals(entity, responseEntity)
+    teardown()
   })
 })
 
 test('Fails to create entities due to version mismatch', t => {
+  setup()
   const space = {
     createAsset: sinon.stub()
   }
@@ -78,5 +91,6 @@ test('Fails to create entities due to version mismatch', t => {
   return creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
   .catch(err => {
     t.equals(err.error.sys.id, 'VersionMismatch')
+    teardown()
   })
 })

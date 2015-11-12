@@ -72,5 +72,12 @@ test('Runs space sync', t => {
     t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
     t.ok(fsMock.writeFileSync.calledWith('errorlogfile'), 'error log file created')
     t.ok(/erroruri/.test(fsMock.writeFileSync.secondCall.args[1]), 'error objects are logged')
+
+    runSpaceSync.__ResetDependency__('createClients')
+    runSpaceSync.__ResetDependency__('getSourceSpace')
+    runSpaceSync.__ResetDependency__('getDestinationContentForUpdate')
+    runSpaceSync.__ResetDependency__('transformSpace')
+    runSpaceSync.__ResetDependency__('pushToSpace')
+    runSpaceSync.__ResetDependency__('fs')
   })
 })
