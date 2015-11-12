@@ -8,24 +8,20 @@ const creationMock = {
   createEntities: sinon.stub(),
   createEntries: sinon.stub()
 }
-pushToSpace.__Rewire__('creation', creationMock)
 
 const publishingMock = {
   publishEntities: sinon.stub().returns(Promise.resolve()),
   unpublishEntities: sinon.stub().returns(Promise.resolve())
 }
-pushToSpace.__Rewire__('publishing', publishingMock)
 
 const deletionMock = {
   deleteEntities: sinon.stub().returns(Promise.resolve())
 }
-pushToSpace.__Rewire__('deletion', deletionMock)
 
 const assetsMock = {
   processAssets: sinon.stub().returns(Promise.resolve()),
   checkAssets: sinon.stub().returns(Promise.resolve())
 }
-pushToSpace.__Rewire__('assets', assetsMock)
 
 const responses = {
   source: {
@@ -46,6 +42,11 @@ const clientMock = {
 }
 
 test('Push content to destination space', t => {
+  pushToSpace.__Rewire__('creation', creationMock)
+  pushToSpace.__Rewire__('publishing', publishingMock)
+  pushToSpace.__Rewire__('deletion', deletionMock)
+  pushToSpace.__Rewire__('assets', assetsMock)
+
   return pushToSpace(responses, clientMock, 'spaceid', 0)
   .then(() => {
     t.equals(deletionMock.deleteEntities.callCount, 4, 'delete entities')
