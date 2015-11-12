@@ -1,7 +1,5 @@
 #!/usr/bin/env node
-require('babel/register')({
-  plugins: ['babel-plugin-rewire']
-})
+require('babel/register')
 
 var log = require('npmlog')
 log.addLevel('show', 10000, {}, '>')
