@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import test from 'tape'
 import sinon from 'sinon'
 import Promise from 'bluebird'
 
@@ -58,7 +58,7 @@ test('Runs space sync', t => {
     }
   })
 
-  return runSpaceSync({
+  runSpaceSync({
     opts: {},
     syncTokenFile: 'synctokenfile',
     errorLogFile: 'errorlogfile'
@@ -79,5 +79,6 @@ test('Runs space sync', t => {
     runSpaceSync.__ResetDependency__('transformSpace')
     runSpaceSync.__ResetDependency__('pushToSpace')
     runSpaceSync.__ResetDependency__('fs')
+    t.end()
   })
 })

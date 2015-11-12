@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import test from 'tape'
 import sinon from 'sinon'
 import Promise from 'bluebird'
 
@@ -24,7 +24,7 @@ test('Create entities', t => {
     createAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}})),
     updateAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}}))
   }
-  return creation.createEntities(space, [
+  creation.createEntities(space, [
     { original: { sys: {} }, transformed: { sys: {id: '123'} } },
     { original: { sys: {} }, transformed: { sys: {id: '456'} } }
   ], [
@@ -36,6 +36,7 @@ test('Create entities', t => {
     t.equals(space.updateAsset.args[0][0].sys.version, 6, 'updates asset version')
     t.equals(logMock.info.callCount, 2, 'logs creation of two assets')
     teardown()
+    t.end()
   })
 })
 
@@ -45,7 +46,7 @@ test('Create entries', t => {
     createEntry: sinon.stub().returns(Promise.resolve({sys: {type: 'Entry'}})),
     updateEntry: sinon.stub().returns(Promise.resolve({sys: {type: 'Entry'}}))
   }
-  return creation.createEntries(space, [
+  creation.createEntries(space, [
     { original: { sys: {contentType: {}} }, transformed: { sys: {id: '123'} } },
     { original: { sys: {contentType: {}} }, transformed: { sys: {id: '456'} } }
   ], [
@@ -57,6 +58,7 @@ test('Create entries', t => {
     t.equals(space.updateEntry.args[0][0].sys.version, 6, 'updates entry version')
     t.equals(logMock.info.callCount, 2, 'logs creation of two entries')
     teardown()
+    t.end()
   })
 })
 
@@ -74,9 +76,10 @@ test('Fails to create entities due to validation', t => {
     }
   }))
   const entity = { original: { sys: {} }, transformed: { sys: {} } }
-  return creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
-  .catch(responseEntity => {
-    t.equals(entity, responseEntity)
+  creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
+  .then(entities => {
+    t.equals(entities[0], entity)
+    t.end()
     teardown()
   })
 })
@@ -88,9 +91,10 @@ test('Fails to create entities due to version mismatch', t => {
   }
   space.createAsset.returns(Promise.reject({error: {sys: {id: 'VersionMismatch'}}}))
   const entity = { original: { sys: {} }, transformed: { sys: {} } }
-  return creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
+  creation.createEntities(space, [entity], [{sys: {}}], 'Asset')
   .catch(err => {
     t.equals(err.error.sys.id, 'VersionMismatch')
     teardown()
+    t.end()
   })
 })

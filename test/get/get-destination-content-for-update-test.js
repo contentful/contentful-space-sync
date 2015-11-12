@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import test from 'tape'
 import sinon from 'sinon'
 import Promise from 'bluebird'
 import {times} from 'lodash/utility'
@@ -37,7 +37,7 @@ const mockClient = {
 }
 
 test('Gets destination content', t => {
-  return getDestinationContentForUpdate(mockClient, 'spaceid', mockSourceResponse)
+  getDestinationContentForUpdate(mockClient, 'spaceid', mockSourceResponse)
   .then(response => {
     t.equals(mockSpace.getEntries.callCount, 2)
     t.equals(mockSpace.getAssets.callCount, 2)
@@ -47,6 +47,6 @@ test('Gets destination content', t => {
       assets: destinationAssets,
       locales: []
     })
-    return response
+    t.end()
   })
 })

@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import test from 'tape'
 import sinon from 'sinon'
 import Promise from 'bluebird'
 
@@ -47,7 +47,7 @@ test('Push content to destination space', t => {
   pushToSpace.__Rewire__('deletion', deletionMock)
   pushToSpace.__Rewire__('assets', assetsMock)
 
-  return pushToSpace(responses, clientMock, 'spaceid', 0)
+  pushToSpace(responses, clientMock, 'spaceid', 0)
   .then(() => {
     t.equals(deletionMock.deleteEntities.callCount, 4, 'delete entities')
     t.equals(publishingMock.unpublishEntities.callCount, 3, 'unpublish entities')
@@ -61,5 +61,6 @@ test('Push content to destination space', t => {
     pushToSpace.__ResetDependency__('publishing')
     pushToSpace.__ResetDependency__('deletion')
     pushToSpace.__ResetDependency__('assets')
+    t.end()
   })
 })

@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import test from 'tape'
 import sinon from 'sinon'
 import Promise from 'bluebird'
 
@@ -14,7 +14,7 @@ test('Delete entities', t => {
   const space = {
     deleteAsset: sinon.stub().returns(Promise.resolve())
   }
-  return deletion.deleteEntities(space, [
+  deletion.deleteEntities(space, [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
   ], 'Asset')
@@ -22,5 +22,6 @@ test('Delete entities', t => {
     t.equals(space.deleteAsset.callCount, 2, 'delete assets')
     t.equals(logMock.info.callCount, 2, 'logs deletion of two assets')
     deletion.__ResetDependency__('log')
+    t.end()
   })
 })
