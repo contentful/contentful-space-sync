@@ -1,6 +1,5 @@
 {
   "name": "contentful-space-sync",
-  "version": "1.2.3",
   "description": "Syncs Contentful spaces",
   "bin": "bin/space-sync",
   "scripts": {
@@ -11,7 +10,8 @@
     "test": "npm run test:cover",
     "test:cover": "BABEL_ENV=test isparta cover test/runner",
     "test:only": "BABEL_ENV=test ./test/runner",
-    "browser-coverage": "npm run test:cover && opener coverage/lcov-report/index.html"
+    "browser-coverage": "npm run test:cover && opener coverage/lcov-report/index.html",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "dependencies": {
     "babel-polyfill": "^6.0.16",
@@ -27,18 +27,20 @@
     "babel-core": "^5.8.33",
     "babel-eslint": "^4.1.3",
     "babel-plugin-rewire": "^0.1.22",
+    "cz-conventional-changelog": "^1.1.4",
     "isparta": "^3.5.3",
     "mkdirp": "^0.5.1",
     "opener": "^1.4.1",
     "require-all": "^2.0.0",
     "rimraf": "^2.4.3",
+    "semantic-release": "^4.3.5",
     "sinon": "^1.17.2",
     "standard": "^5.3.1",
     "tape": "^4.2.2"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/contentful-labs/contentful-space-sync.git"
+    "url": "https://github.com/contentful-labs/contentful-space-sync.git"
   },
   "keywords": [
     "contentful",
@@ -53,5 +55,10 @@
   "homepage": "https://github.com/contentful-labs/contentful-space-sync#readme",
   "standard": {
     "parser": "babel-eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
