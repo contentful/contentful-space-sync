@@ -1,6 +1,7 @@
 import test from 'tape'
 import sinon from 'sinon'
 import Promise from 'bluebird'
+import {each} from 'lodash/collection'
 
 import pushToSpace from '../../lib/push/push-to-space'
 
@@ -41,12 +42,26 @@ const clientMock = {
   getSpace: sinon.stub().returns(Promise.resolve({}))
 }
 
-test('Push content to destination space', t => {
+function setup () {
+  each(creationMock, fn => fn.reset())
+  each(publishingMock, fn => fn.reset())
+  each(deletionMock, fn => fn.reset())
+  each(assetsMock, fn => fn.reset())
   pushToSpace.__Rewire__('creation', creationMock)
   pushToSpace.__Rewire__('publishing', publishingMock)
   pushToSpace.__Rewire__('deletion', deletionMock)
   pushToSpace.__Rewire__('assets', assetsMock)
+}
 
+function teardown () {
+  pushToSpace.__ResetDependency__('creation')
+  pushToSpace.__ResetDependency__('publishing')
+  pushToSpace.__ResetDependency__('deletion')
+  pushToSpace.__ResetDependency__('assets')
+}
+
+test('Push content to destination space', t => {
+  setup()
   pushToSpace(responses, clientMock, 'spaceid', 0)
   .then(() => {
     t.equals(deletionMock.deleteEntities.callCount, 4, 'delete entities')
@@ -56,11 +71,23 @@ test('Push content to destination space', t => {
     t.equals(publishingMock.publishEntities.callCount, 3, 'publish entities')
     t.equals(assetsMock.processAssets.callCount, 1, 'process assets')
     t.equals(assetsMock.checkAssets.callCount, 1, 'check assets')
+    teardown()
+    t.end()
+  })
+})
 
-    pushToSpace.__ResetDependency__('creation')
-    pushToSpace.__ResetDependency__('publishing')
-    pushToSpace.__ResetDependency__('deletion')
-    pushToSpace.__ResetDependency__('assets')
+test('Push only content types and locales to destination space', t => {
+  setup()
+  pushToSpace(responses, clientMock, 'spaceid', 0, true)
+  .then(() => {
+    t.equals(deletionMock.deleteEntities.callCount, 2, 'delete entities')
+    t.equals(publishingMock.unpublishEntities.callCount, 1, 'unpublish entities')
+    t.equals(creationMock.createEntities.callCount, 2, 'create entities')
+    t.equals(creationMock.createEntries.callCount, 0, 'create entries')
+    t.equals(publishingMock.publishEntities.callCount, 1, 'publish entities')
+    t.equals(assetsMock.processAssets.callCount, 0, 'process assets')
+    t.equals(assetsMock.checkAssets.callCount, 0, 'check assets')
+    teardown()
     t.end()
   })
 })

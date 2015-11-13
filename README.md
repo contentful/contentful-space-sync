@@ -55,6 +55,9 @@ Options:
                                   (default path is the current directory)
                                   [string]
 
+  --content-model-only            Copies only content types and locales
+                                  [boolean]
+
   --force-overwrite               Forces overwrite of content on the destination
                                   space with the same ID. BEFORE USING THIS
                                   option see the section "Overwriting Content"
