@@ -12,6 +12,10 @@ If you make any manual changes in the destination space, be aware that **this to
 
 Also, avoid creating new Content Types and Entries in the destination space. This tool is intended to be used with a workflow where you create content on one space and then regularly copy it somewhere else in an automated way.
 
+# Changelog
+
+Check out the [releases](https://github.com/contentful-labs/contentful-space-sync/releases) page.
+
 # Install
 
 `npm install -g contentful-space-sync`
