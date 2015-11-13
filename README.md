@@ -26,40 +26,55 @@ Check out the [releases](https://github.com/contentful-labs/contentful-space-syn
 Usage: contentful-space-sync [options]
 
 Options:
-  --source-space                        ID of Space with source data
-                                        [string] [required]
+  --source-space                  ID of Space with source data
+                                  [string] [required]
 
-  --source-space-delivery-token         Delivery API token for source space
-                                        [string] [required]
+  --destination-space             ID of Space data will be copied to
+                                  [string] [required]
 
-  --source-space-management-token       Management API token for source space
-                                        [string] [required]
+  --source-delivery-token         Delivery API token for source space
+                                  [string] [required]
 
-  --destination-space                   ID of Space data will be copied to
-                                        [string] [required]
+  --management-token              Management API token for both spaces.
+                                  [string]
 
-  --destination-space-delivery-token    Delivery API token for destination space
-                                        [string] [required]
+  --source-management-token       Management API token for source space, if
+                                  different from --management-token.
+                                  [string]
 
-  --destination-space-management-token  Management API token for destination
-                                        space.
-                                        If the user of the token for the source
-                                        space also has access to this space
-                                        there is no need to specify it again.
-                                        [string] [optional]
+  --destination-management-token  Management API token for destination space if
+                                  different from --management-token.
+                                  [string]
 
-  --config                              Configuration file with required values
-                                        [optional]
+  --pre-publish-delay             Delay in milliseconds to account for delay
+                                  after creating entities, due to internal
+                                  database indexing
+                                  [default: 5000]
 
-  --fresh                               Ignores an existing sync token and syncs
-                                        from the start
-                                        [boolean] [optional]
+  --fresh                         Ignores an existing sync token and syncs from
+                                  the start
+                                  [boolean]
 
-  --force-overwrite                     Forces overwrite of content on the destination
-                                        space with the same ID. BEFORE USING THIS option
-                                        see the section "Overwriting Content" on
-                                        the README for more details.
+  --sync-token-dir                Defines the path for storing sync token files
+                                  (default path is the current directory)
+                                  [string]
+
+  --content-model-only            Copies only content types and locales
+                                  [boolean]
+
+  --force-overwrite               Forces overwrite of content on the destination
+                                  space with the same ID. BEFORE USING THIS
+                                  option see the section "Overwriting Content"
+                                  on the README for more details.
+                                  [boolean]
+
+  --config                        Configuration file with required values
+
 ```
+
+The `--management-token` parameter allows you to specify a token which will be used for both spaces. If you get a token from https://www.contentful.com/developers/docs/references/authentication/ and your user account has access to both spaces, this should be enough.
+
+In case you actually need a different management token for any of the spaces, you can use the `--source-management-token` and `--destination-management-token` options to override it.
 
 Check the `example-config.json` file for an example of what a configuration file would look like. If you use the config file, you don't need to specify the other options for tokens and space ids.
 
@@ -68,9 +83,9 @@ Check the `example-config.json` file for an example of what a configuration file
 ```
 contentful-space-sync \
   --source-space sourceSpaceId \
-  --source-space-delivery-token sourceSpaceDeliveryToken \
+  --source-delivery-token sourceSpaceDeliveryToken \
   --destination-space destinationSpaceId \
-  --destination-space-management-token destinationSpaceManagementToken
+  --destination-management-token destinationSpaceManagementToken
 ```
 
 or

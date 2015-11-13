@@ -1,6 +1,6 @@
 {
   "sourceSpace": "source space id",
-  "sourceSpaceDeliveryToken": "source space delivery token",
   "destinationSpace": "destination space id",
-  "destinationSpaceManagementToken": "destination space management token"
+  "sourceDeliveryToken": "source space delivery token",
+  "managementToken": "destination space management token"
 }

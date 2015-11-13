@@ -26,11 +26,16 @@ const deliveryClientMock = {
     ],
     nextSyncToken: 'token'
   })),
-  contentTypes: sinon.stub().returns(Promise.resolve([
-    {sys: {type: 'ContentType'}}
-  ])),
   space: sinon.stub().returns(Promise.resolve({
     locales: ['en-US']
+  }))
+}
+
+const managementClientMock = {
+  getSpace: sinon.stub().returns(Promise.resolve({
+    getContentTypes: sinon.stub().returns(Promise.resolve([
+      {sys: {type: 'ContentType'}}
+    ]))
   }))
 }
 
@@ -48,7 +53,7 @@ const preparedResponse = {
 test('Get source space with no file token', t => {
   setup()
   fsMock.readFileAsync.returns(Promise.reject('file not found'))
-  getSourceSpace(deliveryClientMock)
+  getSourceSpace(deliveryClientMock, managementClientMock, 'spaceid')
   .then(response => {
     const newResponse = Object.assign({}, preparedResponse)
     newResponse.isInitialSync = true
@@ -61,7 +66,7 @@ test('Get source space with no file token', t => {
 test('Get source space with file token', t => {
   setup()
   fsMock.readFileAsync.withArgs('tokenfile').returns(Promise.resolve('newtoken'))
-  getSourceSpace(deliveryClientMock, 'tokenfile')
+  getSourceSpace(deliveryClientMock, managementClientMock, 'spaceid', 'tokenfile')
   .then(response => {
     t.equals(deliveryClientMock.sync.secondCall.args[0].nextSyncToken, 'newtoken', 'syncs with provided token')
     t.deepLooseEqual(response, Object.assign({}, preparedResponse))
@@ -73,7 +78,7 @@ test('Get source space with file token', t => {
 test('Get source space with forced sync from scratch', t => {
   setup()
   fsMock.readFileAsync.withArgs('tokenfile').returns(Promise.resolve('newtoken'))
-  getSourceSpace(deliveryClientMock, 'tokenfile', true)
+  getSourceSpace(deliveryClientMock, managementClientMock, 'spaceid', 'tokenfile', true)
   .then(response => {
     const newResponse = Object.assign({}, preparedResponse)
     newResponse.isInitialSync = true
