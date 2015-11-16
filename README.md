@@ -131,6 +131,8 @@ When using this option, all the entities on the destination space with the same 
 
 By using the `--content-model-only` option, you can copy only Content Types and Locales. This means you'll get a space with the same content structure, but with no content at all.
 
+This might be useful if you have been trying things out but want to start fresh with your content, or if you have a need to [delete fields](#deleting-fields) from your existing Content Types.
+
 # Copying only content
 
 By using the `--skip-content-model` option, you can copy only Entries and Assets. This assumes you have used this script before with the `--content-model-only` option or created the exact same content structure by hand.
