@@ -26,8 +26,8 @@ runSpaceSync.__Rewire__('createClients', createClientsStub)
 const getSourceSpaceStub = sinon.stub().returns(Promise.resolve(sourceResponse))
 runSpaceSync.__Rewire__('getSourceSpace', getSourceSpaceStub)
 
-const getDestinationContentForUpdateStub = sinon.stub().returns(Promise.resolve(destinationResponse))
-runSpaceSync.__Rewire__('getDestinationContentForUpdate', getDestinationContentForUpdateStub)
+const getOutdatedDestinationContentStub = sinon.stub().returns(Promise.resolve(destinationResponse))
+runSpaceSync.__Rewire__('getOutdatedDestinationContent', getOutdatedDestinationContentStub)
 
 const transformSpaceStub = sinon.stub().returns(Promise.resolve(sourceResponse))
 runSpaceSync.__Rewire__('transformSpace', transformSpaceStub)
@@ -66,7 +66,7 @@ test('Runs space sync', t => {
   .then(() => {
     t.ok(createClientsStub.called, 'creates clients')
     t.ok(getSourceSpaceStub.called, 'gets source space')
-    t.ok(getDestinationContentForUpdateStub.called, 'gets destination space')
+    t.ok(getOutdatedDestinationContentStub.called, 'gets destination space')
     t.ok(transformSpaceStub.called, 'transforms space')
     t.deepLooseEqual(pushToSpaceStub.args[0][0], preparedResponses, 'pushes to destination space')
     t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
@@ -75,7 +75,7 @@ test('Runs space sync', t => {
 
     runSpaceSync.__ResetDependency__('createClients')
     runSpaceSync.__ResetDependency__('getSourceSpace')
-    runSpaceSync.__ResetDependency__('getDestinationContentForUpdate')
+    runSpaceSync.__ResetDependency__('getOutdatedDestinationContent')
     runSpaceSync.__ResetDependency__('transformSpace')
     runSpaceSync.__ResetDependency__('pushToSpace')
     runSpaceSync.__ResetDependency__('fs')

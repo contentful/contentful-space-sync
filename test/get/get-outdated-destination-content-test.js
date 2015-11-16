@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import Promise from 'bluebird'
 import {times} from 'lodash/utility'
 
-import getDestinationContentForUpdate from '../../lib/get/get-destination-content-for-update'
+import getOutdatedDestinationContent from '../../lib/get/get-outdated-destination-content'
 
 const mockSourceResponse = {
   entries: [],
@@ -37,7 +37,7 @@ const mockClient = {
 }
 
 test('Gets destination content', t => {
-  getDestinationContentForUpdate(mockClient, 'spaceid', mockSourceResponse)
+  getOutdatedDestinationContent(mockClient, 'spaceid', mockSourceResponse)
   .then(response => {
     t.equals(mockSpace.getEntries.callCount, 2)
     t.equals(mockSpace.getAssets.callCount, 2)
