@@ -62,7 +62,9 @@ function teardown () {
 
 test('Push content to destination space', t => {
   setup()
-  pushToSpace(responses, clientMock, 'spaceid', 0)
+  pushToSpace(responses, clientMock, 'spaceid', {
+    prePublishDelay: 0
+  })
   .then(() => {
     t.equals(deletionMock.deleteEntities.callCount, 4, 'delete entities')
     t.equals(publishingMock.unpublishEntities.callCount, 3, 'unpublish entities')
@@ -78,7 +80,10 @@ test('Push content to destination space', t => {
 
 test('Push only content types and locales to destination space', t => {
   setup()
-  pushToSpace(responses, clientMock, 'spaceid', 0, true)
+  pushToSpace(responses, clientMock, 'spaceid', {
+    prePublishDelay: 0,
+    contentModelOnly: true
+  })
   .then(() => {
     t.equals(deletionMock.deleteEntities.callCount, 2, 'delete entities')
     t.equals(publishingMock.unpublishEntities.callCount, 1, 'unpublish entities')
@@ -87,6 +92,25 @@ test('Push only content types and locales to destination space', t => {
     t.equals(publishingMock.publishEntities.callCount, 1, 'publish entities')
     t.equals(assetsMock.processAssets.callCount, 0, 'process assets')
     t.equals(assetsMock.checkAssets.callCount, 0, 'check assets')
+    teardown()
+    t.end()
+  })
+})
+
+test('Push only entries and assets to destination space', t => {
+  setup()
+  pushToSpace(responses, clientMock, 'spaceid', {
+    prePublishDelay: 0,
+    skipContentModel: true
+  })
+  .then(() => {
+    t.equals(deletionMock.deleteEntities.callCount, 2, 'delete entities')
+    t.equals(publishingMock.unpublishEntities.callCount, 2, 'unpublish entities')
+    t.equals(creationMock.createEntities.callCount, 1, 'create entities')
+    t.equals(creationMock.createEntries.callCount, 1, 'create entries')
+    t.equals(publishingMock.publishEntities.callCount, 2, 'publish entities')
+    t.equals(assetsMock.processAssets.callCount, 1, 'process assets')
+    t.equals(assetsMock.checkAssets.callCount, 1, 'check assets')
     teardown()
     t.end()
   })

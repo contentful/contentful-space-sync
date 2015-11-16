@@ -46,17 +46,53 @@ test('Create entries', t => {
     createEntry: sinon.stub().returns(Promise.resolve({sys: {type: 'Entry'}})),
     updateEntry: sinon.stub().returns(Promise.resolve({sys: {type: 'Entry'}}))
   }
-  creation.createEntries(space, [
+  const entries = [
     { original: { sys: {contentType: {}} }, transformed: { sys: {id: '123'} } },
     { original: { sys: {contentType: {}} }, transformed: { sys: {id: '456'} } }
-  ], [
+  ]
+  const destinationEntries = [
     {sys: {id: '123', version: 6}}
-  ])
+  ]
+  creation.createEntries(space, entries, false, destinationEntries)
   .then(response => {
     t.equals(space.createEntry.callCount, 1, 'create entries')
     t.equals(space.updateEntry.callCount, 1, 'update entries')
     t.equals(space.updateEntry.args[0][0].sys.version, 6, 'updates entry version')
     t.equals(logMock.info.callCount, 2, 'logs creation of two entries')
+    teardown()
+    t.end()
+  })
+})
+
+test('Create entries and remove unknown fields', t => {
+  setup()
+  const space = { updateEntry: sinon.stub() }
+  space.updateEntry.onFirstCall().returns(Promise.reject({
+    name: 'UnknownField',
+    error: {
+      details: {
+        errors: [{
+          name: 'unknown',
+          path: ['fields', 'gonefield']
+        }]
+      }
+    }
+  }))
+  space.updateEntry.onSecondCall().returns(Promise.resolve({
+    sys: {type: 'Entry'},
+    fields: {}
+  }))
+  const entries = [
+    { original: { sys: {contentType: {}} }, transformed: { sys: {id: '123'}, fields: {gonefield: ''} } }
+  ]
+  const destinationEntries = [
+    {sys: {id: '123', version: 6}}
+  ]
+  creation.createEntries(space, entries, true, destinationEntries)
+  .then(response => {
+    t.equals(space.updateEntry.callCount, 2, 'update entries')
+    t.notOk('gonefield' in space.updateEntry.args[1][0].fields, 'removes unknown field')
+    t.equals(logMock.info.callCount, 1, 'logs creation of one entry')
     teardown()
     t.end()
   })

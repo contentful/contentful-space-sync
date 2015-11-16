@@ -62,6 +62,9 @@ Options:
   --content-model-only            Copies only content types and locales
                                   [boolean]
 
+  --skip-content-model            Skips content types and locales. Copies only entries and assets
+                                  [boolean]
+
   --force-overwrite               Forces overwrite of content on the destination
                                   space with the same ID. BEFORE USING THIS
                                   option see the section "Overwriting Content"
@@ -123,3 +126,33 @@ There are various reasons for this but the main one is that while entries and as
 For this reason we don't overwrite content by default when attempting a sync on a fresh space. If you'd like to still do it, you can use the `--force-overwrite` option.
 
 When using this option, all the entities on the destination space with the same ID as the ones on the source space will be overwritten. On subsequent syncs, any Content Types and Locales that don't exist on the source space will be deleted.
+
+# Copying only the content model
+
+By using the `--content-model-only` option, you can copy only Content Types and Locales. This means you'll get a space with the same content structure, but with no content at all.
+
+# Copying only content
+
+By using the `--skip-content-model` option, you can copy only Entries and Assets. This assumes you have used this script before with the `--content-model-only` option or created the exact same content structure by hand.
+
+Every time you run the script without any of these options, it will attempt to update the content model as well, so on subsequent syncs it might be desirable to use this option to make things a bit faster.
+
+# Deleting fields
+
+At the moment, there is a limitation in Contentful regarding field deletion. If you create a Content Type and then create some entries based on it, you are unable to delete fields as the content structure of entries would be changed.
+
+By using a combination of `--content-model-only` and `--skip-content-model`, you can remove fields from content types and ensure that all the entries based on these content types are properly transformed.
+
+## Step 1
+
+Create a new space for use as a destination space, and run the script with the option `--content-model-only`
+
+## Step 2
+
+Using the Contentful user interface or the API, remove the fields you wish to get rid off from your Content Types.
+
+## Step 3
+
+Run the script again, this time with the option `--skip-content-model`.
+
+Every time you synchronize content in the future from the source space, you should also use this option as the source space will still have the fields that have been removed.
