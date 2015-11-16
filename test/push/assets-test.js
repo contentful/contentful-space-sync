@@ -23,7 +23,7 @@ test('Process assets', t => {
   const space = {
     processAssetFile: sinon.stub().returns(Promise.resolve())
   }
-  assets.processAssets(space, [
+  assets.processAssets({space: space}, [
     { sys: {id: '123'}, fields: {file: {'en-US': 'file object', 'en-GB': {}}} },
     { sys: {id: '456'}, fields: {file: {'en-US': 'file object', 'en-GB': {}}} }
   ])
@@ -40,7 +40,7 @@ test('Fails to process assets', t => {
   const space = {
     processAssetFile: sinon.stub().returns(Promise.reject({}))
   }
-  assets.processAssets(space, [
+  assets.processAssets({space: space}, [
     { sys: {id: '123'}, fields: {file: {'en-US': 'file object', 'en-GB': {}}} },
     { sys: {id: '456'}, fields: {file: {'en-US': 'file object', 'en-GB': {}}} }
   ])
@@ -72,7 +72,7 @@ test('Check if assets are processed', t => {
     }
   }))
 
-  assets.checkAssets(space, [
+  assets.checkAssets({space: space}, [
     { sys: {id: '123'}, fields: {file: {'en-US': {}, 'en-GB': {}}} }
   ])
   .then(assets => {

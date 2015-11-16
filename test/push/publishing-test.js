@@ -24,7 +24,7 @@ test('Publish entities', t => {
   const space = {
     publishAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset', publishedVersion: 2}}))
   }
-  return publishing.publishEntities(space, 'Asset', [
+  return publishing.publishEntities({space: space, type: 'Asset'}, [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
   ])
@@ -42,7 +42,7 @@ test('Fails to publish entities', t => {
   const space = {
     publishAsset: sinon.stub().returns(Promise.reject({}))
   }
-  publishing.publishEntities(space, 'Asset', [
+  publishing.publishEntities({space: space, type: 'Asset'}, [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
   ])
@@ -58,7 +58,7 @@ test('Unpublish entities', t => {
   const space = {
     unpublishAsset: sinon.stub().returns(Promise.resolve({sys: {type: 'Asset'}}))
   }
-  publishing.unpublishEntities(space, 'Asset', [
+  publishing.unpublishEntities({space: space, type: 'Asset'}, [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
   ])
@@ -75,7 +75,7 @@ test('Fails to unpublish entities', t => {
   const space = {
     unpublishAsset: sinon.stub().returns(Promise.reject({}))
   }
-  publishing.unpublishEntities(space, 'Asset', [
+  publishing.unpublishEntities({space: space, type: 'Asset'}, [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
   ])
@@ -91,7 +91,7 @@ test('Fails to unpublish entities because theyre already unpublished', t => {
   const space = {
     unpublishAsset: sinon.stub().returns(Promise.reject({name: 'BadRequest'}))
   }
-  publishing.unpublishEntities(space, 'Asset', [
+  publishing.unpublishEntities({space: space, type: 'Asset'}, [
     { sys: {id: '123', type: 'Asset'} }
   ])
   .then(entities => {

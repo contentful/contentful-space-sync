@@ -14,7 +14,7 @@ test('Delete entities', t => {
   const space = {
     deleteAsset: sinon.stub().returns(Promise.resolve())
   }
-  deletion.deleteEntities(space, 'Asset', [
+  deletion.deleteEntities({space: space, type: 'Asset'}, [
     { sys: {id: '123'} },
     { sys: {id: '456'} }
   ])
