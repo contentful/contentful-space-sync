@@ -26,14 +26,17 @@ runSpaceSync.__Rewire__('createClients', createClientsStub)
 const getSourceSpaceStub = sinon.stub().returns(Promise.resolve(sourceResponse))
 runSpaceSync.__Rewire__('getSourceSpace', getSourceSpaceStub)
 
-const getOutdatedDestinationContentStub = sinon.stub().returns(Promise.resolve(destinationResponse))
-runSpaceSync.__Rewire__('getOutdatedDestinationContent', getOutdatedDestinationContentStub)
+const getTransformedDestinationResponseStub = sinon.stub().returns(Promise.resolve(destinationResponse))
+runSpaceSync.__Rewire__('getTransformedDestinationResponse', getTransformedDestinationResponseStub)
 
 const transformSpaceStub = sinon.stub().returns(Promise.resolve(sourceResponse))
 runSpaceSync.__Rewire__('transformSpace', transformSpaceStub)
 
 const pushToSpaceStub = sinon.stub().returns(Promise.resolve({}))
 runSpaceSync.__Rewire__('pushToSpace', pushToSpaceStub)
+
+const dumpErrorBufferStub = sinon.stub()
+runSpaceSync.__Rewire__('dumpErrorBuffer', dumpErrorBufferStub)
 
 const fsMock = {
   writeFileSync: sinon.stub()
@@ -66,18 +69,18 @@ test('Runs space sync', t => {
   .then(() => {
     t.ok(createClientsStub.called, 'creates clients')
     t.ok(getSourceSpaceStub.called, 'gets source space')
-    t.ok(getOutdatedDestinationContentStub.called, 'gets destination space')
+    t.ok(getTransformedDestinationResponseStub.called, 'gets destination space')
     t.ok(transformSpaceStub.called, 'transforms space')
     t.deepLooseEqual(pushToSpaceStub.args[0][0], preparedResponses, 'pushes to destination space')
     t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
-    t.ok(fsMock.writeFileSync.calledWith('errorlogfile'), 'error log file created')
-    t.ok(/erroruri/.test(fsMock.writeFileSync.secondCall.args[1]), 'error objects are logged')
+    t.ok(dumpErrorBufferStub.called, 'error objects are logged')
 
     runSpaceSync.__ResetDependency__('createClients')
     runSpaceSync.__ResetDependency__('getSourceSpace')
-    runSpaceSync.__ResetDependency__('getOutdatedDestinationContent')
+    runSpaceSync.__ResetDependency__('getTransformedDestinationResponse')
     runSpaceSync.__ResetDependency__('transformSpace')
     runSpaceSync.__ResetDependency__('pushToSpace')
+    runSpaceSync.__ResetDependency__('dumpErrorBuffer')
     runSpaceSync.__ResetDependency__('fs')
     t.end()
   })
