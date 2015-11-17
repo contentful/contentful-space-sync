@@ -17,7 +17,7 @@
     "babel-polyfill": "^6.0.16",
     "contentful": "^1.2.0",
     "bluebird": "^3.0.5",
-    "contentful-management": "^0.5.0",
+    "contentful-management": "^0.6.0",
     "lodash": "^3.10.1",
     "npmlog": "^2.0.0",
     "yargs": "^3.27.0"
