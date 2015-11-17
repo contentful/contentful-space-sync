@@ -13,24 +13,12 @@ const mockSourceResponse = {
 times(2000, n => mockSourceResponse.entries.push({sys: {id: `e${n}`, revision: 2}}))
 times(2000, n => mockSourceResponse.assets.push({sys: {id: `a${n}`, revision: 2}}))
 
-const destinationEntries = mockSourceResponse.entries.map(entry => {
-  return { sys: { id: entry.sys.id, version: 1 } }
-})
-
-const destinationAssets = mockSourceResponse.assets.map(asset => {
-  return { sys: { id: asset.sys.id, version: 1 } }
-})
-
 const mockSpace = {
   getContentTypes: sinon.stub().returns(Promise.resolve([])),
-  getEntries: sinon.stub().returns(Promise.resolve(destinationEntries)),
-  getAssets: sinon.stub().returns(Promise.resolve(destinationAssets)),
+  getEntries: sinon.stub().returns(Promise.resolve([{}])),
+  getAssets: sinon.stub().returns(Promise.resolve([{}])),
   getLocales: sinon.stub().returns(Promise.resolve([]))
 }
-mockSpace.getEntries.onFirstCall().returns(Promise.resolve(destinationEntries.slice(0, 1000)))
-mockSpace.getEntries.onSecondCall().returns(Promise.resolve(destinationEntries.slice(1000, destinationEntries.length)))
-mockSpace.getAssets.onFirstCall().returns(Promise.resolve(destinationAssets.slice(0, 1000)))
-mockSpace.getAssets.onSecondCall().returns(Promise.resolve(destinationAssets.slice(1000, destinationAssets.length)))
 
 const mockClient = {
   getSpace: sinon.stub().returns(Promise.resolve(mockSpace))
@@ -39,14 +27,22 @@ const mockClient = {
 test('Gets destination content', t => {
   getOutdatedDestinationContent(mockClient, 'spaceid', mockSourceResponse)
   .then(response => {
-    t.equals(mockSpace.getEntries.callCount, 2)
-    t.equals(mockSpace.getAssets.callCount, 2)
-    t.deepLooseEqual(response, {
-      contentTypes: [],
-      entries: destinationEntries,
-      assets: destinationAssets,
-      locales: []
-    })
+    t.equals(mockSpace.getEntries.callCount, 6, 'getEntries is split into multiple calls')
+    testQueryLength(t, 'getEntries')
+    t.equals(mockSpace.getAssets.callCount, 6, 'getAssets is split into multiple calls')
+    testQueryLength(t, 'getAssets')
+    t.equals(response.entries.length, 6, 'number of entries matched (one per call)')
+    t.equals(response.assets.length, 6, 'number of assets matched (one per call)')
     t.end()
   })
 })
+
+function testQueryLength (t, method) {
+  const query = mockSpace[method].args[0][0]['sys.id[in]']
+  const queryLength = query.length
+  t.ok(
+    queryLength < 2100,
+    `${method} query length is under GET request length limit. Actual value: ${queryLength}`
+  )
+  t.notEqual(query[query.length - 1], ',', `${method} query last character is not a comma`)
+}
