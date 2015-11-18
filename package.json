@@ -17,6 +17,7 @@
   "dependencies": {
     "babel-polyfill": "^6.0.16",
     "bluebird": "^3.0.5",
+    "contentful-batch-libs": "^1.0.1",
     "lodash": "^3.10.1",
     "npmlog": "^2.0.0",
     "yargs": "^3.27.0"

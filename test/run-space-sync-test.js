@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import Promise from 'bluebird'
 
 import runSpaceSync from '../lib/run-space-sync'
-import errorBuffer from '../lib/error-buffer'
+import errorBuffer from 'contentful-batch-libs/utils/error-buffer'
 
 const sourceResponse = {
   nextSyncToken: 'nextsynctoken',
