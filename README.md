@@ -14,7 +14,7 @@ Also, avoid creating new Content Types and Entries in the destination space. Thi
 
 # Changelog
 
-Check out the [releases](https://github.com/contentful-labs/contentful-space-sync/releases) page.
+Check out the [releases](https://github.com/contentful/contentful-space-sync/releases) page.
 
 # Install
 

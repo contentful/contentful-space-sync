@@ -6,6 +6,7 @@
     "build": "rimraf dist && mkdirp dist && babel lib --out-dir dist",
     "clean": "rimraf dist && rimraf coverage",
     "prepublish": "npm run build",
+    "postpublish": "npm run clean",
     "pretest": "standard",
     "test": "npm run test:cover",
     "test:cover": "BABEL_ENV=test isparta cover test/runner",
@@ -15,9 +16,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.0.16",
-    "contentful": "^1.2.0",
     "bluebird": "^3.0.5",
-    "contentful-management": "^0.6.0",
     "lodash": "^3.10.1",
     "npmlog": "^2.0.0",
     "yargs": "^3.27.0"
@@ -40,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/contentful-labs/contentful-space-sync.git"
+    "url": "https://github.com/contentful/contentful-space-sync.git"
   },
   "keywords": [
     "contentful",
@@ -50,9 +49,9 @@
   "author": "Tiago Rodrigues <tiago@contentful.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/contentful-labs/contentful-space-sync/issues"
+    "url": "https://github.com/contentful/contentful-space-sync/issues"
   },
-  "homepage": "https://github.com/contentful-labs/contentful-space-sync#readme",
+  "homepage": "https://github.com/contentful/contentful-space-sync#readme",
   "standard": {
     "parser": "babel-eslint"
   },

@@ -37,10 +37,10 @@ if (usage.opts.fresh || !hasTokenFile) {
   usage.opts.destinationSpace + 'with existing token from ' + usage.syncTokenFile)
 }
 
-setTimeout(function () {
+//setTimeout(function () {
   runSpaceSync(usage)
   .catch(function (err) {
     log.error('Failed with\n', err)
     process.exit(1)
   })
-}, 3000)
+//}, 3000)
