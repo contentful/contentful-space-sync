@@ -2,7 +2,6 @@
 require('babel/register')
 
 var log = require('npmlog')
-log.addLevel('show', 10000, {}, '>')
 log.level = 'silent'
 
 require('require-all')({
