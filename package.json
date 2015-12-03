@@ -12,7 +12,8 @@
     "test:cover": "BABEL_ENV=test isparta cover test/runner",
     "test:only": "BABEL_ENV=test ./test/runner",
     "browser-coverage": "npm run test:cover && opener coverage/lcov-report/index.html",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "link": "mkdirp node_modules && ln -s ../../contentful-batch-libs/lib node_modules/contentful-batch-libs"
   },
   "dependencies": {
     "babel-polyfill": "^6.0.16",
