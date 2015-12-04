@@ -26,6 +26,8 @@ Check out the [releases](https://github.com/contentful/contentful-space-sync/rel
 Usage: contentful-space-sync [options]
 
 Options:
+  --version                       Show version number
+
   --source-space                  ID of Space with source data
                                   [string] [required]
 
