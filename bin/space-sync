@@ -3,13 +3,13 @@ var log = require('npmlog')
 var fs = require('fs')
 var usage, runSpaceSync
 // require either compiled or development source
+require('babel-polyfill')
 try {
   runSpaceSync = require('../dist/run-space-sync')
   usage = require('../dist/usage')
-  require('babel-polyfill')
 } catch (err) {
   if (err.code === 'MODULE_NOT_FOUND') {
-    require('babel/register')
+    require('babel-register')
     runSpaceSync = require('../lib/run-space-sync')
     usage = require('../lib/usage')
   } else {
