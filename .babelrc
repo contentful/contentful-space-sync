@@ -1,6 +1,8 @@
 {
+  "presets": ["es2015"],
   "env": {
     "test": {
+      "sourceMaps": "inline",
       "plugins": ["babel-plugin-rewire"]
     }
   }
