@@ -1,17 +1,13 @@
 #!/usr/bin/env node
 var log = require('npmlog')
 var fs = require('fs')
-var usage, runSpaceSync
-// require either compiled or development source
+var runSpaceSync = require('../')
 var usageParams
 
 try {
-  runSpaceSync = require('../dist/run-space-sync')
   usageParams = require('../dist/usageParams')
 } catch (err) {
   if (err.code === 'MODULE_NOT_FOUND') {
-    require('babel-register')
-    runSpaceSync = require('../lib/run-space-sync')
     usageParams = require('../lib/usageParams')
   } else {
     console.log(err)

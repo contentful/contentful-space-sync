@@ -2,6 +2,7 @@
   "name": "contentful-space-sync",
   "description": "Syncs Contentful spaces",
   "bin": "bin/space-sync",
+  "main": "index.js",
   "scripts": {
     "build": "rimraf dist && mkdirp dist && babel lib --out-dir dist",
     "clean": "rimraf dist && rimraf coverage",
