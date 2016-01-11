@@ -4,14 +4,16 @@ var fs = require('fs')
 var usage, runSpaceSync
 // require either compiled or development source
 require('babel-polyfill')
+var usageParams
+
 try {
   runSpaceSync = require('../dist/run-space-sync')
-  usage = require('../dist/usage')
+  usageParams = require('../dist/usageParams')
 } catch (err) {
   if (err.code === 'MODULE_NOT_FOUND') {
     require('babel-register')
     runSpaceSync = require('../lib/run-space-sync')
-    usage = require('../lib/usage')
+    usageParams = require('../lib/usageParams')
   } else {
     console.log(err)
     process.exit(1)
@@ -24,22 +26,22 @@ log.info('Contentful Space Sync:\n' +
 
 var hasTokenFile
 try {
-  hasTokenFile = !!fs.statSync(usage.syncTokenFile)
+  hasTokenFile = !!fs.statSync(usageParams.syncTokenFile)
 } catch (e) {
   hasTokenFile = false
 }
 
-if (usage.opts.fresh || !hasTokenFile) {
+if (usageParams.opts.fresh || !hasTokenFile) {
   log.info('No previous sync token found or fresh sync requested.\n' +
-  'Synchronizing fresh content from ' + usage.opts.sourceSpace + ' to ' + usage.opts.destinationSpace)
+  'Synchronizing fresh content from ' + usageParams.opts.sourceSpace + ' to ' + usageParams.opts.destinationSpace)
 } else {
-  log.info('Synchronizing content from ' + usage.opts.sourceSpace + ' to ' +
-  usage.opts.destinationSpace + 'with existing token from ' + usage.syncTokenFile)
+  log.info('Synchronizing content from ' + usageParams.opts.sourceSpace + ' to ' +
+  usageParams.opts.destinationSpace + 'with existing token from ' + usageParams.syncTokenFile)
 }
 
 // Allow the user some time to cancel their action after the previous warning
 setTimeout(function () {
-  runSpaceSync(usage)
+  runSpaceSync(usageParams)
   .catch(function (err) {
     log.error('Failed with\n', err)
     process.exit(1)
