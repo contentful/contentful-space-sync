@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-require('babel-polyfill')
-
 var log = require('npmlog')
 log.level = 'silent'
 

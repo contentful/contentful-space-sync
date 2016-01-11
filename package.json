@@ -16,9 +16,8 @@
     "link": "mkdirp node_modules && ln -s ../../contentful-batch-libs/lib node_modules/contentful-batch-libs"
   },
   "dependencies": {
-    "babel-polyfill": "^6.3.14",
     "bluebird": "^3.0.5",
-    "contentful-batch-libs": "^1.2.0",
+    "contentful-batch-libs": "^2.0.0",
     "lodash": "^3.10.1",
     "npmlog": "^2.0.0",
     "yargs": "^3.27.0"

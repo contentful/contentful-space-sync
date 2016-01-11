@@ -3,7 +3,6 @@ var log = require('npmlog')
 var fs = require('fs')
 var usage, runSpaceSync
 // require either compiled or development source
-require('babel-polyfill')
 var usageParams
 
 try {
