@@ -45,14 +45,14 @@ runSpaceSync.__Rewire__('fs', fsMock)
 
 test('Runs space sync', t => {
   const preparedResponses = {
-    source: {
+    sourceContent: {
       deletedContentTypes: [{sys: {id: 'doesntexist'}}],
       deletedLocales: [{code: 'en-GB'}],
       contentTypes: [{original: {sys: {id: 'exists'}}}],
       locales: [{original: {code: 'en-US'}}],
       nextSyncToken: 'nextsynctoken'
     },
-    destination: Object.assign({}, destinationResponse)
+    destinationContent: Object.assign({}, destinationResponse)
   }
 
   errorBuffer.push({
@@ -71,7 +71,8 @@ test('Runs space sync', t => {
     t.ok(getSourceSpaceStub.called, 'gets source space')
     t.ok(getTransformedDestinationResponseStub.called, 'gets destination space')
     t.ok(transformSpaceStub.called, 'transforms space')
-    t.deepLooseEqual(pushToSpaceStub.args[0][0], preparedResponses, 'pushes to destination space')
+    t.deepLooseEqual(pushToSpaceStub.args[0][0].sourceContent, preparedResponses.sourceContent, 'sends source content to destination space')
+    t.deepLooseEqual(pushToSpaceStub.args[0][0].destinationContent, preparedResponses.destinationContent, 'sends destination content to destination space')
     t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
     t.ok(dumpErrorBufferStub.called, 'error objects are logged')
 
