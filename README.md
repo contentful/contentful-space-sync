@@ -117,6 +117,8 @@ If any errors occur during synchronization, the tool will also create a time sta
 
 The most common problem will probably be an `UnresolvedLinks` error, which means a published entry A links to another entry B or asset C which has been deleted since publishing of the entry A.
 
+If you come across this problem, you can use [contentful-link-cleaner](https://github.com/contentful/contentful-link-cleaner) to clean all of those unresolved references.
+
 # Overwriting content
 
 On some occasions, an initial sync might fail with an unexpected error and you'd like to resume it.
