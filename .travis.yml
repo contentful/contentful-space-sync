@@ -1,6 +1,7 @@
 before_install:
   - npm install -g npm@latest
   - npm set progress=false
+  - pip install codecov
 language: node_js
 node_js:
   - "0.10"
@@ -8,6 +9,7 @@ node_js:
   - "4.2"
   - "5.0"
 after_success:
+  - codecov
   - curl -Lo travis_after_all.py https://raw.githubusercontent.com/contentful/travis_after_all/master/travis_after_all.py
   - python travis_after_all.py
   - export $(cat .to_export_back) &> /dev/null
