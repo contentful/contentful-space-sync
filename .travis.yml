@@ -8,7 +8,7 @@ node_js:
   - "4.2"
   - "5.0"
 after_success:
-  - ./node_modules/.bin/codecov --disable gcov
+  - ./node_modules/.bin/codecov --disable=gcov
   - curl -Lo travis_after_all.py https://raw.githubusercontent.com/contentful/travis_after_all/master/travis_after_all.py
   - python travis_after_all.py
   - export $(cat .to_export_back) &> /dev/null
