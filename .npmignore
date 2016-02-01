@@ -1,5 +1,0 @@
-lib
-test
-*.log
-test-*.json
-node_modules
