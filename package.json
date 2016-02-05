@@ -18,7 +18,7 @@
     "link": "mkdirp node_modules && ln -s ../../contentful-batch-libs/lib node_modules/contentful-batch-libs"
   },
   "dependencies": {
-    "bluebird": "^3.0.5",
+    "bluebird": "^3.2.2",
     "contentful-batch-libs": "^3.1.0",
     "lodash": "^4.0.0",
     "npmlog": "^2.0.0",
