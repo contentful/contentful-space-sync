@@ -22,7 +22,7 @@
     "contentful-batch-libs": "^3.1.0",
     "lodash": "^4.0.0",
     "npmlog": "^2.0.0",
-    "yargs": "^3.27.0"
+    "yargs": "^4.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.3.17",
