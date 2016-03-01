@@ -43,7 +43,7 @@ const fsMock = {
 }
 runSpaceSync.__Rewire__('fs', fsMock)
 
-test('Runs space sync', t => {
+test('Runs space sync', (t) => {
   const preparedResponses = {
     sourceContent: {
       deletedContentTypes: [{sys: {id: 'doesntexist'}}],
@@ -66,23 +66,23 @@ test('Runs space sync', t => {
     syncTokenFile: 'synctokenfile',
     errorLogFile: 'errorlogfile'
   })
-  .then(() => {
-    t.ok(createClientsStub.called, 'creates clients')
-    t.ok(getSourceSpaceStub.called, 'gets source space')
-    t.ok(getTransformedDestinationResponseStub.called, 'gets destination space')
-    t.ok(transformSpaceStub.called, 'transforms space')
-    t.deepLooseEqual(pushToSpaceStub.args[0][0].sourceContent, preparedResponses.sourceContent, 'sends source content to destination space')
-    t.deepLooseEqual(pushToSpaceStub.args[0][0].destinationContent, preparedResponses.destinationContent, 'sends destination content to destination space')
-    t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
-    t.ok(dumpErrorBufferStub.called, 'error objects are logged')
+    .then(() => {
+      t.ok(createClientsStub.called, 'creates clients')
+      t.ok(getSourceSpaceStub.called, 'gets source space')
+      t.ok(getTransformedDestinationResponseStub.called, 'gets destination space')
+      t.ok(transformSpaceStub.called, 'transforms space')
+      t.deepLooseEqual(pushToSpaceStub.args[0][0].sourceContent, preparedResponses.sourceContent, 'sends source content to destination space')
+      t.deepLooseEqual(pushToSpaceStub.args[0][0].destinationContent, preparedResponses.destinationContent, 'sends destination content to destination space')
+      t.ok(fsMock.writeFileSync.calledWith('synctokenfile', 'nextsynctoken'), 'token file created')
+      t.ok(dumpErrorBufferStub.called, 'error objects are logged')
 
-    runSpaceSync.__ResetDependency__('createClients')
-    runSpaceSync.__ResetDependency__('getSourceSpace')
-    runSpaceSync.__ResetDependency__('getTransformedDestinationResponse')
-    runSpaceSync.__ResetDependency__('transformSpace')
-    runSpaceSync.__ResetDependency__('pushToSpace')
-    runSpaceSync.__ResetDependency__('dumpErrorBuffer')
-    runSpaceSync.__ResetDependency__('fs')
-    t.end()
-  })
+      runSpaceSync.__ResetDependency__('createClients')
+      runSpaceSync.__ResetDependency__('getSourceSpace')
+      runSpaceSync.__ResetDependency__('getTransformedDestinationResponse')
+      runSpaceSync.__ResetDependency__('transformSpace')
+      runSpaceSync.__ResetDependency__('pushToSpace')
+      runSpaceSync.__ResetDependency__('dumpErrorBuffer')
+      runSpaceSync.__ResetDependency__('fs')
+      t.end()
+    })
 })
