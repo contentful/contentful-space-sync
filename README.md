@@ -76,6 +76,10 @@ Options:
   --skip-content-model            Skips content types and locales. Copies only entries and assets
                                   [boolean]
 
+  --skip-locales                  Skips locales. Must be used with --content-model-only.
+                                  Copies only content types.
+                                  [boolean]
+
   --force-overwrite               Forces overwrite of content on the destination
                                   space with the same ID. BEFORE USING THIS
                                   option see the section "Overwriting Content"
