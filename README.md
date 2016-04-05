@@ -116,6 +116,33 @@ You can create your own config file based on the [`example-config.json`](example
 
 You can also use the `--fresh` parameter with any of the above combinations, in case you have manually deleted all content from an existent space and want to ignore an existing stored sync token.
 
+# Usage as a library
+
+While this tool is mostly intended to be used as a command line tool, it can also be used as a Node library:
+
+```js
+var spaceSync = require('contentful-space-sync')
+
+spaceSync(options)
+.then((output) => {
+  console.log('sync token', output.nextSyncToken)
+})
+.catch((err) => {
+  console.log('oh no! errors occurred!', err)
+})
+```
+
+The options object can contain any of the CLI options but written with a camelCase pattern instead, and no dashes. So `--source-space` would become `sourceSpace`.
+
+Apart from those options, there are two additional ones that can be passed to it:
+
+* `errorLogFile` - File to where any errors will be written.
+* `syncTokenFile` - File to where the sync token will be written.
+
+The method returns a promise, where, if successful, you'll have an object which contains the `nextSyncToken` (only thing there at the moment). If not successful, it will contain an object with errors.
+
+You can look at [`bin/space-sync`](bin/space-sync) to check how the CLI tool uses the library.
+
 # Synchronizing a space over time
 
 This tool uses the Contentful [Synchronization](https://www.contentful.com/developers/docs/concepts/sync/) endpoint to keep content synchronized over repeated runs of the script.
