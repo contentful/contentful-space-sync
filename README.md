@@ -9,9 +9,41 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-This tool allows you to perform a **one way** synchronization from one Contentful space to another.
+This tool allows you to perform a **one way** synchronization of **published** content from one Contentful space to another.
 
-Assuming you have a source space and a destination space, you can keep **published** content synchronized over time. Any draft or unsaved content will not be synchronized.
+The tool makes use of Contentful's [Synchronization API](https://www.contentful.com/developers/docs/concepts/sync/) which means that if you run the tool in the future with the provided token, you will only synchronize new and updated Entries and Assets, as well as remove any that have been deleted.
+
+## What this tool is for
+
+### Development environments
+- You have a Production space where your content editors create and publish content
+- You want your developers to work on new features without touching the production content
+- Use the tool to create copies of your Production space where your Developers can try things out at will
+
+### Field deletion for published Content Types / Entries
+> This feature is only available on Contentful for Content Types which have no Entries. Until the possibility to delete fields comes along, you can use this tool to achieve a similar purpose
+- See the [Deleting Fields](#deleting-fields) section
+
+### Creating new spaces with a similar content model
+- If you want to start out with a content model similar to what you have on another space, you can use the `--content-model-only` option
+
+## What this tool can be used for (but isn't advised)
+
+### Published content backups
+
+While this is possible, we do not advise that you use this tool for backups for the following reasons:
+- This tool only synchronizes **published** content. Anything in Draft mode or any unpublished changes to a published Entry will not be synchronized.
+- Your content might have broken links (see [contentful-link-cleaner](https://github.com/contentful/contentful-link-cleaner))
+- The tool attempts to create every Content Type, Entry and Asset separately, so if failures such as network failures occur your copy might not be complete
+- Contentful already [backups your content](https://www.contentful.com/faq/backup-security-and-hosting/) and provides extra offsite backup capabilities
+
+## What this tool shouldn't be used for
+
+### Workflow management
+- Initially, this tool was born as a replacement for [contentful-publication](https://github.com/jsebfranck/contentful-publication), a tool built to manage publication workflows, in which editors would work in a Source space, and content approved and meant for publishing would be synchronized to a Destination space
+- However, Contentful now has an improved [Roles and Permissions](https://www.contentful.com/r/knowledgebase/roles-and-permissions/) system, which allows for an easier content approval process
+
+# How does it work?
 
 Each time you run the tool it stores a [synchronization token](https://www.contentful.com/developers/docs/concepts/sync/) so only new Entries and Assets get copied, and so that deleted items can also be deleted on the destination space. See the [Synchronization](https://www.contentful.com/developers/docs/concepts/sync/) documentation for more details.
 
@@ -189,16 +221,24 @@ At the moment, there is a limitation in Contentful regarding field deletion. If 
 
 By using a combination of `--content-model-only` and `--skip-content-model`, you can remove fields from content types and ensure that all the entries based on these content types are properly transformed.
 
+- You have a Source space, where you want to delete some fields on your Content Types
+- Use the tool with the `--content-model-only` option to copy your Content Types to a new space we'll call Destination
+- In the Destination space, remove any fields you want to get rid of
+- Now run the tool again, to copy your content from Source to Destination but with the `--skip-content-model` option
+- Only Entries and Assets will be copied, and any fields in Entries which don't exist in the Destination space will be ignored
+
 ## Step 1
 
-Create a new space for use as a destination space, and run the script with the option `--content-model-only`
+Assuming you already have a Source space with Content Types which you want to delete fields from, create a new space Destination, and run the script with the option `--content-model-only`
 
 ## Step 2
 
-Using the Contentful user interface or the API, remove the fields you wish to get rid off from your Content Types.
+Using the [Contentful Web App](https://app.contentful.com) or the [Management API](https://www.contentful.com/developers/docs/references/content-management-api/), remove the fields you wish to get rid off from your Content Types.
 
 ## Step 3
 
-Run the script again, this time with the option `--skip-content-model`.
+Run the script again, this time with the option `--skip-content-model`. This will copy only Entries and Assets.
+
+Any fields in Entries which do not exist in the Destination space's Content Types will be ignored.
 
 Every time you synchronize content in the future from the source space, you should also use this option as the source space will still have the fields that have been removed.
