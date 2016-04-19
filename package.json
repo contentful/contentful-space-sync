@@ -15,7 +15,8 @@
     "test:debug": "BABEL_ENV=test babel-node debug ./test/runner",
     "browser-coverage": "npm run test:cover && opener coverage/lcov-report/index.html",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "link": "mkdirp node_modules && ln -s ../../contentful-batch-libs/lib node_modules/contentful-batch-libs"
+    "link-dev-deps": "mkdirp node_modules && ln -s ../../contentful-batch-libs/lib node_modules/contentful-batch-libs",
+    "unlink-dev-deps": "rimraf node_modules/contentful-batch-libs"
   },
   "dependencies": {
     "bluebird": "^3.3.3",
