@@ -41,7 +41,7 @@
     "rimraf": "^2.5.0",
     "semantic-release": "^4.3.5",
     "sinon": "^1.17.2",
-    "standard": "^6.0.7",
+    "standard": "^7.1.0",
     "tape": "^4.5.1"
   },
   "files": [
