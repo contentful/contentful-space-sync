@@ -236,3 +236,11 @@ Run the script again, this time with the option `--skip-content-model`. This wil
 Any fields in Entries which do not exist in the Destination space's Content Types will be ignored.
 
 Every time you synchronize content in the future from the source space, you should also use this option as the source space will still have the fields that have been removed.
+
+# What happened to --force-overwrite and --fresh ?
+
+These options were very problematic and caused more problems than they solved, so they were removed on version 4. You can see more details [here](https://github.com/contentful/contentful-space-sync/commit/066c629fec0e4c41b2094cbf6f5b01697c0b525f) and [here](https://github.com/contentful/contentful-space-sync/commit/44f1ac81ec12850c4342d91d53e0386dff68de32).
+
+If you think you need these options, we advise you create a new, empty space, and restart the synchronization process from scratch.
+
+If you really really really REALLY need those options and you are aware of how much trouble they can cause, you can always use an older version of the tool.
