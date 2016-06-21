@@ -108,6 +108,24 @@ Options:
                                   Copies only content types.
                                   [boolean]
 
+  --delivery-host                 Host for the Delivery API.
+                                  [string]
+
+  --delivery-port                 Port for the Delivery API.
+                                  [string]
+
+  --delivery-insecure             If the Delivery API should use http instead of the default https.
+                                  [boolean]
+
+  --management-host               Host for the Management API.
+                                  [string]
+
+  --management-port               Port for the Management API.
+                                  [string]
+
+  --management-insecure           If the Management API should use http instead of the default https.
+                                  [boolean]
+
   --config                        Configuration file with required values
 
 ```
