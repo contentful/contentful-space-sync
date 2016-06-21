@@ -23,8 +23,8 @@ const destinationResponse = {
 const createClientsStub = sinon.stub().returns({ source: {delivery: {}}, destination: {management: {}} })
 runSpaceSync.__Rewire__('createClients', createClientsStub)
 
-const getSourceSpaceStub = sinon.stub().returns(Promise.resolve(sourceResponse))
-runSpaceSync.__Rewire__('getSourceSpace', getSourceSpaceStub)
+const getSourceSpaceViaSyncStub = sinon.stub().returns(Promise.resolve(sourceResponse))
+runSpaceSync.__Rewire__('getSourceSpaceViaSync', getSourceSpaceViaSyncStub)
 
 const getTransformedDestinationResponseStub = sinon.stub().returns(Promise.resolve(destinationResponse))
 runSpaceSync.__Rewire__('getTransformedDestinationResponse', getTransformedDestinationResponseStub)
@@ -68,7 +68,7 @@ test('Runs space sync', (t) => {
   })
     .then(() => {
       t.ok(createClientsStub.called, 'creates clients')
-      t.ok(getSourceSpaceStub.called, 'gets source space')
+      t.ok(getSourceSpaceViaSyncStub.called, 'gets source space')
       t.ok(getTransformedDestinationResponseStub.called, 'gets destination space')
       t.ok(transformSpaceStub.called, 'transforms space')
       t.deepLooseEqual(pushToSpaceStub.args[0][0].sourceContent, preparedResponses.sourceContent, 'sends source content to destination space')
@@ -77,7 +77,7 @@ test('Runs space sync', (t) => {
       t.ok(dumpErrorBufferStub.called, 'error objects are logged')
 
       runSpaceSync.__ResetDependency__('createClients')
-      runSpaceSync.__ResetDependency__('getSourceSpace')
+      runSpaceSync.__ResetDependency__('getSourceSpaceViaSync')
       runSpaceSync.__ResetDependency__('getTransformedDestinationResponse')
       runSpaceSync.__ResetDependency__('transformSpace')
       runSpaceSync.__ResetDependency__('pushToSpace')

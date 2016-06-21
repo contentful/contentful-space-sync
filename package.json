@@ -21,7 +21,7 @@
   "version": "1.0.0-determined-by-semantic-release",
   "dependencies": {
     "bluebird": "^3.3.3",
-    "contentful-batch-libs": "^3.2.2",
+    "contentful-batch-libs": "^4.0.0",
     "lodash": "^4.0.0",
     "npmlog": "^2.0.0",
     "yargs": "^4.2.0"
