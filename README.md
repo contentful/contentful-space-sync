@@ -108,12 +108,6 @@ Options:
                                   Copies only content types.
                                   [boolean]
 
-  --force-overwrite               Forces overwrite of content on the destination
-                                  space with the same ID. BEFORE USING THIS
-                                  option see the section "Overwriting Content"
-                                  on the README for more details.
-                                  [boolean]
-
   --config                        Configuration file with required values
 
 ```
@@ -141,7 +135,6 @@ contentful-space-sync --config example-config.json
 ```
 
 You can create your own config file based on the [`example-config.json`](example-config.json) file.
-
 
 # Usage as a library
 
@@ -185,18 +178,6 @@ If any errors occur during synchronization, the tool will also create a time sta
 The most common problem will probably be an `UnresolvedLinks` error, which means a published entry A links to another entry B or asset C which has been deleted since publishing of the entry A.
 
 If you come across this problem, you can use [contentful-link-cleaner](https://github.com/contentful/contentful-link-cleaner) to clean all of those unresolved references.
-
-# Overwriting content
-
-On some occasions, an initial sync might fail with an unexpected error and you'd like to resume it.
-
-An initial sync will always fail if content already exists in the destination space.
-
-There are various reasons for this but the main one is that while entries and assets can be retrieved through the sync API, as well as deleted entries and assets, for Content Types and Locales the tool always retrieves all the Content Types and all the Locales in the source and destination spaces, compares them, and in the destination space deletes the ones that don't exist in the source space.
-
-For this reason we don't overwrite content by default when attempting a sync on a fresh space. If you'd like to still do it, you can use the `--force-overwrite` option.
-
-When using this option, all the entities on the destination space with the same ID as the ones on the source space will be overwritten. On subsequent syncs, any Content Types and Locales that don't exist on the source space will be deleted.
 
 # Copying only the content model
 
