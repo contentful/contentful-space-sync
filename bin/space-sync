@@ -26,8 +26,8 @@ try {
   hasTokenFile = false
 }
 
-if (usageParams.opts.fresh || !hasTokenFile) {
-  log.info('No previous sync token found or fresh sync requested.\n' +
+if (!hasTokenFile) {
+  log.info('No previous sync token found.\n' +
   'Synchronizing fresh content from ' + usageParams.opts.sourceSpace + ' to ' + usageParams.opts.destinationSpace)
 } else {
   log.info('Synchronizing content from ' + usageParams.opts.sourceSpace + ' to ' +

@@ -94,10 +94,6 @@ Options:
                                   database indexing
                                   [default: 5000]
 
-  --fresh                         Ignores an existing sync token and syncs from
-                                  the start
-                                  [boolean]
-
   --sync-token-dir                Defines the path for storing sync token files
                                   (default path is the current directory)
                                   [string]
@@ -146,7 +142,6 @@ contentful-space-sync --config example-config.json
 
 You can create your own config file based on the [`example-config.json`](example-config.json) file.
 
-You can also use the `--fresh` parameter with any of the above combinations, in case you have manually deleted all content from an existent space and want to ignore an existing stored sync token.
 
 # Usage as a library
 
