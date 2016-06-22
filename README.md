@@ -211,31 +211,7 @@ Every time you run the script without any of these options, it will attempt to u
 
 # Deleting fields
 
-At the moment, there is a limitation in Contentful regarding field deletion. If you create a Content Type and then create some entries based on it, you are unable to delete fields as the content structure of entries would be changed.
-
-By using a combination of `--content-model-only` and `--skip-content-model`, you can remove fields from content types and ensure that all the entries based on these content types are properly transformed.
-
-- You have a Source space, where you want to delete some fields on your Content Types
-- Use the tool with the `--content-model-only` option to copy your Content Types to a new space we'll call Destination
-- In the Destination space, remove any fields you want to get rid of
-- Now run the tool again, to copy your content from Source to Destination but with the `--skip-content-model` option
-- Only Entries and Assets will be copied, and any fields in Entries which don't exist in the Destination space will be ignored
-
-## Step 1
-
-Assuming you already have a Source space with Content Types which you want to delete fields from, create a new space Destination, and run the script with the option `--content-model-only`
-
-## Step 2
-
-Using the [Contentful Web App](https://app.contentful.com) or the [Management API](https://www.contentful.com/developers/docs/references/content-management-api/), remove the fields you wish to get rid off from your Content Types.
-
-## Step 3
-
-Run the script again, this time with the option `--skip-content-model`. This will copy only Entries and Assets.
-
-Any fields in Entries which do not exist in the Destination space's Content Types will be ignored.
-
-Every time you synchronize content in the future from the source space, you should also use this option as the source space will still have the fields that have been removed.
+While we used to recommend this tool as a way to do field deletion through a specific workflow, this feature is now available on the Contentful UI.
 
 # What happened to --force-overwrite and --fresh ?
 
