@@ -1,5 +1,6 @@
 {
   "name": "contentful-space-sync",
+  "version": "1.0.0-determined-by-semantic-release",
   "description": "Syncs Contentful spaces",
   "bin": "bin/space-sync",
   "main": "index.js",
@@ -15,10 +16,11 @@
     "test:debug": "BABEL_ENV=test babel-node debug ./test/runner",
     "browser-coverage": "npm run test:cover && opener coverage/lcov-report/index.html",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "install-local-dev-deps": "pushd ../contentful-batch-libs && npm run build && popd && npm install ../contentful-batch-libs",
-    "uninstall-local-dev-deps": "pushd ../contentful-batch-libs && npm run clean && popd && rimraf node_modules/contentful-batch-libs"
+    "devdep:build": "pushd ../contentful-batch-libs && npm run build && popd",
+    "devdep:clean": "pushd ../contentful-batch-libs && npm run clean && popd",
+    "devdep:install": "npm run devdep:build && rm -rf node_modules/contentful-batch-libs && npm install ../contentful-batch-libs && npm run devdep:clean",
+    "devdep:uninstall": "npm run devdep:clean && rimraf node_modules/contentful-batch-libs"
   },
-  "version": "1.0.0-determined-by-semantic-release",
   "dependencies": {
     "bluebird": "^3.3.3",
     "contentful-batch-libs": "^4.0.1",
