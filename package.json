@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "bluebird": "^3.3.3",
-    "contentful-batch-libs": "^4.0.7",
+    "contentful-batch-libs": "^4.0.8",
     "lodash": "^4.0.0",
     "npmlog": "^2.0.0",
     "yargs": "^4.2.0"
