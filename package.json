@@ -1,6 +1,5 @@
 {
   "name": "contentful-space-sync",
-  "version": "1.0.0-determined-by-semantic-release",
   "description": "Syncs Contentful spaces",
   "bin": "bin/space-sync",
   "main": "index.js",
