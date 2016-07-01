@@ -21,7 +21,6 @@ The tool makes use of Contentful's [Synchronization API](https://www.contentful.
 - Use the tool to create copies of your Production space where your Developers can try things out at will
 
 ### Field deletion for published Content Types / Entries
-> This feature is only available on Contentful for Content Types which have no Entries. Until the possibility to delete fields comes along, you can use this tool to achieve a similar purpose
 - See the [Deleting Fields](#deleting-fields) section
 
 ### Creating new spaces with a similar content model
