@@ -9,3 +9,4 @@ dist
 # space-sync specific
 contentful-space-sync-*
 test-*.json
+*.swp
