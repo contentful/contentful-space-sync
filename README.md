@@ -124,6 +124,10 @@ Options:
 
   --management-insecure           If the Management API should use http instead of the default https.
                                   [boolean]
+  
+  --proxy-host                    hostname of the proxy server. [string]
+  
+  --proxy-port                    port of the proxy server. [string]
 
   --config                        Configuration file with required values
 
