@@ -50,6 +50,9 @@
     "standard": "^6.0.7",
     "tape": "^4.5.1"
   },
+  "engine":{
+    "node": "<6.0.0"
+  },
   "files": [
     "bin",
     "dist",
