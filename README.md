@@ -128,6 +128,10 @@ Options:
   --proxy-host                    hostname of the proxy server. [string]
   
   --proxy-port                    port of the proxy server. [string]
+  
+  --rate-limit                    How many request per period of time, default 6 [number]
+  
+  --rate-limit-period             How much time to wait before retry in ms, default 1000 [number]     
 
   --config                        Configuration file with required values
 
