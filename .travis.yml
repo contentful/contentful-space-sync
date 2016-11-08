@@ -2,6 +2,10 @@ dist: trusty
 before_install:
   - npm install -g npm@latest
 language: node_js
+
+script:
+  - npm run build 
+  - npm run test
 node_js:
   - "0.10"
   - "3.3"
