@@ -9,11 +9,20 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
+## Deprecation Notice
+
+This tool was replaced by the contentful-export and contentful-import tools and is now considered deprecated. We won't offer support regarding the usage of this tool.
+
+The new export tool allows you to export all content, including content types, assets and webhooks; the new import tool enables external content to be imported into a new space;
+
+[contentful-export](https://github.com/contentful/contentful-export/)
+[contentful-import](https://github.com/contentful/contentful-import/)
+
+## What this tool is for
+
 This tool allows you to perform a **one way** synchronization of **published** content from one Contentful space to another.
 
 The tool makes use of Contentful's [Synchronization API](https://www.contentful.com/developers/docs/concepts/sync/) which means that if you run the tool in the future with the provided token, you will only synchronize new and updated Entries and Assets, as well as remove any that have been deleted.
-
-## What this tool is for
 
 ### Development environments
 - You have a Production space where your content editors create and publish content
