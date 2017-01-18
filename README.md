@@ -11,12 +11,11 @@
 
 ## Deprecation Notice
 
-This tool was replaced by the contentful-export and contentful-import tools and is now considered deprecated. We won't offer support regarding the usage of this tool.
+We have replaced this tool with the [contentful-export](https://github.com/contentful/contentful-export/) and [contentful-import](https://github.com/contentful/contentful-import/) tools and is now considered deprecated. We won't offer support regarding the usage of this tool.
 
-The new export tool allows you to export all content, including content types, assets and webhooks; the new import tool enables external content to be imported into a new space;
+The new export tool allows you to export all content, including content types, assets and webhooks from a space. The new import tool enables you to import external content into a new space.
 
-[contentful-export](https://github.com/contentful/contentful-export/)
-[contentful-import](https://github.com/contentful/contentful-import/)
+Read more about the steps involved in [our guide for managing synchronization between multiple spaces](https://www.contentful.com/developers/docs/concepts/multiple-environments/).
 
 ## What this tool is for
 
@@ -25,31 +24,36 @@ This tool allows you to perform a **one way** synchronization of **published** c
 The tool makes use of Contentful's [Synchronization API](https://www.contentful.com/developers/docs/concepts/sync/) which means that if you run the tool in the future with the provided token, you will only synchronize new and updated Entries and Assets, as well as remove any that have been deleted.
 
 ### Development environments
-- You have a Production space where your content editors create and publish content
-- You want your developers to work on new features without touching the production content
-- Use the tool to create copies of your Production space where your Developers can try things out at will
+
+-   You have a Production space where your content editors create and publish content
+-   You want your developers to work on new features without touching the production content
+-   Use the tool to create copies of your Production space where your Developers can try things out at will
 
 ### Field deletion for published Content Types / Entries
-- See the [Deleting Fields](#deleting-fields) section
+
+-   See the [Deleting Fields](#deleting-fields) section
 
 ### Creating new spaces with a similar content model
-- If you want to start out with a content model similar to what you have on another space, you can use the `--content-model-only` option
+
+-   If you want to start out with a content model similar to what you have on another space, you can use the `--content-model-only` option
 
 ## What this tool can be used for (but isn't advised)
 
 ### Published content backups
 
 While this is possible, we do not advise that you use this tool for backups for the following reasons:
-- This tool only synchronizes **published** content. Anything in Draft mode or any unpublished changes to a published Entry will not be synchronized.
-- Your content might have broken links (see [contentful-link-cleaner](https://github.com/contentful/contentful-link-cleaner))
-- The tool attempts to create every Content Type, Entry and Asset separately, so if failures such as network failures occur your copy might not be complete
-- Contentful already [backups your content](https://www.contentful.com/faq/backup-security-and-hosting/) and provides extra offsite backup capabilities
+
+-   This tool only synchronizes **published** content. Anything in Draft mode or any unpublished changes to a published Entry will not be synchronized.
+-   Your content might have broken links (see [contentful-link-cleaner](https://github.com/contentful/contentful-link-cleaner))
+-   The tool attempts to create every Content Type, Entry and Asset separately, so if failures such as network failures occur your copy might not be complete
+-   Contentful already [backups your content](https://www.contentful.com/faq/backup-security-and-hosting/) and provides extra offsite backup capabilities
 
 ## What this tool shouldn't be used for
 
 ### Workflow management
-- Initially, this tool was born as a replacement for [contentful-publication](https://github.com/jsebfranck/contentful-publication), a tool built to manage publication workflows, in which editors would work in a Source space, and content approved and meant for publishing would be synchronized to a Destination space
-- However, Contentful now has an improved [Roles and Permissions](https://www.contentful.com/r/knowledgebase/roles-and-permissions/) system, which allows for an easier content approval process
+
+-   Initially, this tool was born as a replacement for [contentful-publication](https://github.com/jsebfranck/contentful-publication), a tool built to manage publication workflows, in which editors would work in a Source space, and content approved and meant for publishing would be synchronized to a Destination space
+-   However, Contentful now has an improved [Roles and Permissions](https://www.contentful.com/r/knowledgebase/roles-and-permissions/) system, which allows for an easier content approval process
 
 # How does it work?
 
@@ -71,82 +75,79 @@ Check out the [releases](https://github.com/contentful/contentful-space-sync/rel
 
 # Usage
 
-```
-Usage: contentful-space-sync [options]
+    Usage: contentful-space-sync [options]
 
-Options:
-  --version                       Show version number
+    Options:
+      --version                       Show version number
 
-  --source-space                  ID of Space with source data
-                                  [string] [required]
+      --source-space                  ID of Space with source data
+                                      [string] [required]
 
-  --destination-space             ID of Space data will be copied to
-                                  [string] [required]
+      --destination-space             ID of Space data will be copied to
+                                      [string] [required]
 
-  --source-delivery-token         Delivery API token for source space
-                                  [string] [required]
+      --source-delivery-token         Delivery API token for source space
+                                      [string] [required]
 
-  --management-token              Management API token for both spaces.
-                                  [string]
+      --management-token              Management API token for both spaces.
+                                      [string]
 
-  --source-management-token       Management API token for source space, if
-                                  different from --management-token.
-                                  [string]
+      --source-management-token       Management API token for source space, if
+                                      different from --management-token.
+                                      [string]
 
-  --destination-management-token  Management API token for destination space if
-                                  different from --management-token.
-                                  [string]
+      --destination-management-token  Management API token for destination space if
+                                      different from --management-token.
+                                      [string]
 
-  --pre-publish-delay             Delay in milliseconds to account for delay
-                                  after creating entities, due to internal
-                                  database indexing
-                                  [default: 5000]
+      --pre-publish-delay             Delay in milliseconds to account for delay
+                                      after creating entities, due to internal
+                                      database indexing
+                                      [default: 5000]
 
-  --sync-token-dir                Defines the path for storing sync token files
-                                  (default path is the current directory)
-                                  [string]
+      --sync-token-dir                Defines the path for storing sync token files
+                                      (default path is the current directory)
+                                      [string]
 
-  --content-model-only            Copies only content types and locales
-                                  [boolean]
+      --content-model-only            Copies only content types and locales
+                                      [boolean]
 
-  --skip-content-model            Skips content types and locales. Copies only entries and assets
-                                  [boolean]
+      --skip-content-model            Skips content types and locales. Copies only entries and assets
+                                      [boolean]
 
-  --skip-locales                  Skips locales. Must be used with --content-model-only.
-                                  Copies only content types.
-                                  [boolean]
+      --skip-locales                  Skips locales. Must be used with --content-model-only.
+                                      Copies only content types.
+                                      [boolean]
 
-  --delivery-host                 Host for the Delivery API.
-                                  [string]
+      --delivery-host                 Host for the Delivery API.
+                                      [string]
 
-  --delivery-port                 Port for the Delivery API.
-                                  [string]
+      --delivery-port                 Port for the Delivery API.
+                                      [string]
 
-  --delivery-insecure             If the Delivery API should use http instead of the default https.
-                                  [boolean]
+      --delivery-insecure             If the Delivery API should use http instead of the default https.
+                                      [boolean]
 
-  --management-host               Host for the Management API.
-                                  [string]
+      --management-host               Host for the Management API.
+                                      [string]
 
-  --management-port               Port for the Management API.
-                                  [string]
+      --management-port               Port for the Management API.
+                                      [string]
 
-  --management-insecure           If the Management API should use http instead of the default https.
-                                  [boolean]
-  
-  --proxy-host                    hostname of the proxy server. [string]
-  
-  --proxy-port                    port of the proxy server. [string]
-  
-  --rate-limit                    How many request per period of time, default 6 [number]
-  
-  --rate-limit-period             How much time to wait before retry in ms, default 1000 [number]     
+      --management-insecure           If the Management API should use http instead of the default https.
+                                      [boolean]
 
-  --config                        Configuration file with required values
+      --proxy-host                    hostname of the proxy server. [string]
 
-```
+      --proxy-port                    port of the proxy server. [string]
 
-The `--management-token` parameter allows you to specify a token which will be used for both spaces. If you get a token from https://www.contentful.com/developers/docs/references/authentication/ and your user account has access to both spaces, this should be enough.
+      --rate-limit                    How many request per period of time, default 6 [number]
+
+      --rate-limit-period             How much time to wait before retry in ms, default 1000 [number]     
+
+      --config                        Configuration file with required values
+
+The `--management-token` parameter allows you to specify a token which will be used for both spaces. If you get a token from <https://www.contentful.com/developers/docs/references/authentication/> and your user account has access to both spaces, this should be enough.
 
 In case you actually need a different management token for any of the spaces, you can use the `--source-management-token` and `--destination-management-token` options to override it.
 
@@ -154,19 +155,15 @@ Check the `example-config.json` file for an example of what a configuration file
 
 # Example usage
 
-```
-contentful-space-sync \
-  --source-space sourceSpaceId \
-  --source-delivery-token sourceSpaceDeliveryToken \
-  --destination-space destinationSpaceId \
-  --destination-management-token destinationSpaceManagementToken
-```
+    contentful-space-sync \
+      --source-space sourceSpaceId \
+      --source-delivery-token sourceSpaceDeliveryToken \
+      --destination-space destinationSpaceId \
+      --destination-management-token destinationSpaceManagementToken
 
 or
 
-```
-contentful-space-sync --config example-config.json
-```
+    contentful-space-sync --config example-config.json
 
 You can create your own config file based on the [`example-config.json`](example-config.json) file.
 
@@ -190,8 +187,8 @@ The options object can contain any of the CLI options but written with a camelCa
 
 Apart from those options, there are two additional ones that can be passed to it:
 
-* `errorLogFile` - File to where any errors will be written.
-* `syncTokenFile` - File to where the sync token will be written.
+-   `errorLogFile` - File to where any errors will be written.
+-   `syncTokenFile` - File to where the sync token will be written.
 
 The method returns a promise, where, if successful, you'll have an object which contains the `nextSyncToken` (only thing there at the moment). If not successful, it will contain an object with errors.
 
