@@ -1,5 +1,5 @@
-# Contentful Space Sync
-[![deprecated](http://badges.github.io/stability-badges/dist/deprecated.svg)](http://github.com/badges/stability-badges)
+# Contentful Space Sync [![deprecated](http://badges.github.io/stability-badges/dist/deprecated.svg)](http://github.com/badges/stability-badges)
+
 
 [![npm](https://img.shields.io/npm/v/contentful-space-sync.svg)](https://www.npmjs.com/package/contentful-space-sync)
 [![Build Status](https://travis-ci.org/contentful/contentful-space-sync.svg?branch=master)](https://travis-ci.org/contentful/contentful-space-sync)
