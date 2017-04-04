@@ -12,7 +12,7 @@
 
 ## Deprecation Notice
 
-We have replaced this tool with the [contentful-export](https://github.com/contentful/contentful-export/) and [contentful-import](https://github.com/contentful/contentful-import/) tools and is now considered deprecated. We won't offer support regarding the usage of this tool.
+We have replaced this tool with the [contentful-export](https://github.com/contentful/contentful-export/) and [contentful-import](https://github.com/contentful/contentful-import/) tools and it is now considered deprecated. We won't offer support regarding the usage of this tool.
 
 The new export tool allows you to export all content, including content types, assets and webhooks from a space. The new import tool enables you to import external content into a new space.
 
